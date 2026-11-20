@@ -905,6 +905,12 @@
       letter-spacing: -0.02em;
       text-wrap: balance;
     }
+    .card__title a {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+    .card__title a:hover { color: var(--color-pure-black); text-decoration-thickness: 2px; }
     .card__note {
       padding-top: var(--spacing-10);
       border-top: 1px solid var(--color-charcoal);
@@ -1307,7 +1313,7 @@
           <div class="projects__intro">
             <p class="eyebrow"><span>03</span>Projects</p>
             <h2 class="headline headline--xl" id="projects-title">All builds!</h2>
-            <p class="projects__sub">Eighteen builds, from battlebots and an 8-bit computer to a cheap ECG machine.</p>
+            <p class="projects__sub" id="projects-summary">Builds in robotics, electronics, flight &amp; RC, games, science and agriculture.</p>
           </div>
 
           <figure class="plate">
@@ -1319,95 +1325,12 @@
           </figure>
         </div>
 
-        <div class="filters" role="group" aria-label="Filter projects by category">
-          <button class="filter" type="button" data-filter="all" aria-pressed="true">All <span class="filter__count"></span></button>
-          <button class="filter" type="button" data-filter="robotics" aria-pressed="false">Robotics <span class="filter__count"></span></button>
-          <button class="filter" type="button" data-filter="electronics" aria-pressed="false">Electronics <span class="filter__count"></span></button>
-          <button class="filter" type="button" data-filter="flight" aria-pressed="false">Flight &amp; RC <span class="filter__count"></span></button>
-          <button class="filter" type="button" data-filter="games" aria-pressed="false">Games <span class="filter__count"></span></button>
-          <button class="filter" type="button" data-filter="science" aria-pressed="false">Science &amp; agriculture <span class="filter__count"></span></button>
-        </div>
+        <div class="filters" id="project-filters" role="group" aria-label="Filter projects by category"></div>
         <p class="visually-hidden" id="filter-status" aria-live="polite"></p>
 
+        <!-- Cards are built from projects.js -->
         <ol class="project-grid" id="project-grid">
-          <li class="card" data-cat="robotics">
-            <p class="card__meta"><span>Robotics</span><span class="card__no">No. 01</span></p>
-            <h3 class="card__title">Small weight class battlebots</h3>
-          </li>
-          <li class="card" data-cat="robotics">
-            <p class="card__meta"><span>Robotics</span><span class="card__no">No. 02</span></p>
-            <h3 class="card__title">Soccer bots</h3>
-            <p class="card__note">Two weight classes: 3 kg and 1 kg.</p>
-          </li>
-          <li class="card" data-cat="robotics">
-            <p class="card__meta"><span>Robotics</span><span class="card__no">No. 03</span></p>
-            <h3 class="card__title">Line follower bot</h3>
-          </li>
-          <li class="card" data-cat="robotics">
-            <p class="card__meta"><span>Robotics</span><span class="card__no">No. 04</span></p>
-            <h3 class="card__title">Prosthetic arm</h3>
-          </li>
-          <li class="card" data-cat="electronics">
-            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 05</span></p>
-            <h3 class="card__title">8-bit computer</h3>
-          </li>
-          <li class="card" data-cat="electronics">
-            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 06</span></p>
-            <h3 class="card__title">10×10×10 LED cube</h3>
-            <p class="card__note">1,000 LEDs, ten to a side.</p>
-          </li>
-          <li class="card" data-cat="electronics">
-            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 07</span></p>
-            <h3 class="card__title">Headphone amps</h3>
-            <p class="card__note">Designed, built and sold directly.</p>
-          </li>
-          <li class="card" data-cat="electronics">
-            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 08</span></p>
-            <h3 class="card__title">Cheap ECG machine</h3>
-          </li>
-          <li class="card" data-cat="electronics">
-            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 09</span></p>
-            <h3 class="card__title">Useless machine</h3>
-          </li>
-          <li class="card" data-cat="electronics">
-            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 10</span></p>
-            <h3 class="card__title">Arduino and microcontroller projects</h3>
-                      </li>
-          <li class="card" data-cat="flight">
-            <p class="card__meta"><span>Flight &amp; RC</span><span class="card__no">No. 11</span></p>
-            <h3 class="card__title">RC planes</h3>
-          </li>
-          <li class="card" data-cat="flight">
-            <p class="card__meta"><span>Flight &amp; RC</span><span class="card__no">No. 12</span></p>
-            <h3 class="card__title">RC cars and boats</h3>
-          </li>
-          <li class="card" data-cat="flight">
-            <p class="card__meta"><span>Flight &amp; RC</span><span class="card__no">No. 13</span></p>
-            <h3 class="card__title">Flight simulator yoke setup</h3>
-          </li>
-          <li class="card" data-cat="games">
-            <p class="card__meta"><span>Games</span><span class="card__no">No. 14</span></p>
-            <h3 class="card__title">DuelMaze</h3>
-            <p class="card__note">A fun two-player physical maze game.</p>
-          </li>
-          <li class="card" data-cat="games">
-            <p class="card__meta"><span>Games</span><span class="card__no">No. 15</span></p>
-            <h3 class="card__title">Memory game</h3>
-          </li>
-          <li class="card" data-cat="science">
-            <p class="card__meta"><span>Science</span><span class="card__no">No. 16</span></p>
-            <h3 class="card__title">Biofloc fish farming</h3>
-            <p class="card__note">A project on Biofloc fish farming techniques.</p>
-          </li>
-          <li class="card" data-cat="science">
-            <p class="card__meta"><span>Science</span><span class="card__no">No. 17</span></p>
-            <h3 class="card__title">A new construction material</h3>
-            <p class="card__note">Made from organic compounds.</p>
-          </li>
-          <li class="card" data-cat="science">
-            <p class="card__meta"><span>Agriculture</span><span class="card__no">No. 18</span></p>
-            <h3 class="card__title">Agriculture automation</h3>
-          </li>
+          <noscript><li class="card"><p class="card__title">Turn on JavaScript to see the full project list.</p></li></noscript>
         </ol>
       </div>
     </section>
@@ -1468,6 +1391,7 @@
     <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
   </footer>
 
+  <script src="projects.js"></script>
   <script>
     (() => {
       /* ---------- Menu overlay ---------- */
@@ -1533,23 +1457,72 @@
       if (document.fonts) document.fonts.ready.then(fitAll);
       window.addEventListener('resize', scheduleFit);
 
-      /* ---------- Project filters ---------- */
-      const cards = [...document.querySelectorAll('#project-grid .card')];
-      const filters = [...document.querySelectorAll('[data-filter]')];
+      /* ---------- Projects: built from projects.js ---------- */
+      const projects = Array.isArray(window.PROJECTS) ? window.PROJECTS : [];
+      const grid = document.getElementById('project-grid');
+      const filterBar = document.getElementById('project-filters');
       const status = document.getElementById('filter-status');
+      const summary = document.getElementById('projects-summary');
+
+      const slugify = (text) => String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      const el = (tag, className, text) => {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+      // "Flight & RC" reads as "flight & RC" mid-sentence; acronyms keep their capitals
+      const inSentence = (name) => name.split(' ').map((w) => (w === w.toUpperCase() ? w : w.toLowerCase())).join(' ');
+      const listWords = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`);
+
+      const categories = [...new Set(projects.map((p) => p.category))];
+
+      // Cards
+      const cards = projects.map((project, i) => {
+        const card = el('li', 'card');
+        card.dataset.cat = slugify(project.category);
+
+        const meta = el('p', 'card__meta');
+        meta.append(el('span', '', project.category), el('span', 'card__no', `No. ${String(i + 1).padStart(2, '0')}`));
+
+        const title = el('h3', 'card__title');
+        if (project.link) {
+          const a = el('a', '', project.title);
+          a.href = project.link;
+          a.rel = 'noopener';
+          title.append(a);
+        } else {
+          title.textContent = project.title;
+        }
+
+        card.append(meta, title);
+        if (project.note) card.append(el('p', 'card__note', project.note));
+        return card;
+      });
+      if (cards.length) grid.replaceChildren(...cards);
+
+      if (summary && projects.length) {
+        summary.textContent = `${projects.length} builds in ${listWords(categories.map(inSentence))}.`;
+      }
+
+      // Filters
       const matches = (card, filter) => filter === 'all' || card.dataset.cat === filter;
-
-      filters.forEach((button) => {
-        const filter = button.dataset.filter;
-        const count = cards.filter((card) => matches(card, filter)).length;
-        button.querySelector('.filter__count').textContent = count;
-
+      const filterOptions = [['all', 'All'], ...categories.map((c) => [slugify(c), c])];
+      const filterButtons = filterOptions.map(([value, label]) => {
+        const count = cards.filter((card) => matches(card, value)).length;
+        const button = el('button', 'filter', `${label} `);
+        button.type = 'button';
+        button.dataset.filter = value;
+        button.setAttribute('aria-pressed', String(value === 'all'));
+        button.append(el('span', 'filter__count', String(count)));
         button.addEventListener('click', () => {
-          filters.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
-          cards.forEach((card) => { card.hidden = !matches(card, filter); });
+          filterButtons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+          cards.forEach((card) => { card.hidden = !matches(card, value); });
           status.textContent = `Showing ${count} project${count === 1 ? '' : 's'}`;
         });
+        return button;
       });
+      if (cards.length) filterBar.replaceChildren(...filterButtons);
 
       /* ---------- Copy contact details ---------- */
       document.querySelectorAll('[data-copy]').forEach((button) => {
