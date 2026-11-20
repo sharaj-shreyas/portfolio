@@ -18,7 +18,7 @@
 */
 
 window.PROJECTS = [
-  { title: 'Small weight class battlebots', category: 'Robotics' },
+  /*{ title: 'Small weight class battlebots', category: 'Robotics' },*/
   { title: 'Soccer bots', category: 'Robotics', note: 'Two weight classes: 3 kg and 1 kg.' },
   { title: 'Line follower bot', category: 'Robotics' },
   { title: 'Prosthetic arm', category: 'Robotics' },
