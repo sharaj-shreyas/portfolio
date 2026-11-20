@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sharaj Shreyas Portfolio</title>
+  <meta name="description" content="Sharaj Shreyas, Civil Engineering student at IIT Gandhinagar. Robotics, hardware, CAD and prototyping: battlebots, soccer bots, RC planes, an 8-bit computer and more.">
+  <meta name="theme-color" content="#e2dedb">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Pirata+One&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,300..600&display=swap">
+  <style>
+    /* =========================================================
+       Tokens
+       Layout idea: a broadsheet. Ink banners crash through a
+       parchment page; content sits in 3 / 2 / 1 column newspaper
+       grids separated by hairline rules.
+       ========================================================= */
+    :root {
+      /* Palette (from the design system) */
+      --color-parchment: #e2dedb;
+      --color-bone-cream: #cdc6be;
+      --color-ink-black: #1d1d1b;
+      --color-charcoal: #69645f;
+      --color-pure-black: #000000;
+      --color-ember-orange: #c03f13;
+      --color-charcoal-deep: #55514c; /* charcoal deepened so small text passes AA on both surfaces */
+
+      /* Faces: the licensed originals first, open substitutes from the style guide next */
+      --font-canopee: 'Canopee', 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif;
+      --font-domaine-display: 'Domaine Display', 'Bodoni Moda', 'Bodoni 72', Georgia, serif;
+      --font-editorial-new: 'Editorial New', 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+      --font-germgoth: 'Germgoth', 'Pirata One', 'Old English Text MT', serif;
+
+      /* Type scale (fluid versions of the design tokens) */
+      --text-caption: 0.875rem;                               /* 14px */
+      --text-body-sm: 1rem;                                   /* 16px */
+      --text-body: 1.125rem;                                  /* 18px */
+      --text-lede: clamp(1.125rem, 1.6vw, 1.25rem);           /* 18 to 20px */
+      --text-subheading: 1.375rem;                            /* 22px */
+      --text-heading-sm: clamp(1.625rem, 3vw, 2rem);          /* 26 to 32px */
+      --text-heading: clamp(2.25rem, 5.2vw, 4.0625rem);       /* 36 to 65px */
+      --text-heading-xl: clamp(2.75rem, 7vw, 5.375rem);       /* 44 to 86px */
+      --text-heading-lg: clamp(3rem, 10.5vw, 7.625rem);       /* 48 to 122px */
+
+      --leading-display: 0.82;
+      --leading-heading: 0.91;
+      --tracking-display: -0.045em;
+
+      /* Spacing */
+      --spacing-4: 4px;
+      --spacing-7: 7px;
+      --spacing-10: 10px;
+      --spacing-12: 12px;
+      --spacing-14: 14px;
+      --spacing-17: 17px;
+      --spacing-22: 22px;
+      --spacing-28: 28px;
+      --spacing-36: 36px;
+      --spacing-43: 43px;
+      --spacing-58: 58px;
+      --spacing-115: 115px;
+
+      /* Layout */
+      --page-max-width: 1440px;
+      --gutter: clamp(16px, 3vw, 43px);
+      --section-space: clamp(58px, 8vw, 115px);
+      --card-padding: 24px;
+      --header-height: 58px;
+
+      /* Shape and depth */
+      --radius-tags: 2.88px;
+      --radius-buttons: 2.88px;
+      --radius-cards: 11.52px;
+      --shadow-sm: rgba(29, 29, 27, 0.2) -4px 4px 6px 0px;
+      --shadow-sm-2: rgba(29, 29, 27, 0.2) -5px 3px 6px 0px;
+      --rule: 1px solid var(--color-ink-black);
+
+      color-scheme: light;
+    }
+
+    /* =========================================================
+       Base
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      background: var(--color-parchment);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+
+    body {
+      margin: 0;
+      background: var(--color-parchment);
+      color: var(--color-ink-black);
+      font-family: var(--font-editorial-new);
+      font-weight: 300;
+      font-size: var(--text-body);
+      line-height: 1.45;
+      font-optical-sizing: auto;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body.menu-open { overflow: hidden; }
+
+    h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+    ul, ol { padding: 0; list-style: none; }
+    img { display: block; max-width: 100%; height: auto; }
+    button { font: inherit; color: inherit; }
+    a { color: inherit; }
+    strong { font-weight: 500; }
+
+    ::selection { background: var(--color-ember-orange); color: #fff; }
+
+    :focus-visible {
+      outline: 2px solid var(--color-ember-orange);
+      outline-offset: 3px;
+    }
+
+    section[id] { scroll-margin-top: var(--header-height); }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--page-max-width);
+      margin-inline: auto;
+      padding-inline: var(--gutter);
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      margin: -1px; padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: var(--gutter);
+      top: -100px;
+      z-index: 100;
+      padding: 10px 14px;
+      background: var(--color-ink-black);
+      color: var(--color-parchment);
+      border-radius: var(--radius-buttons);
+      text-decoration: none;
+    }
+    .skip-link:focus { top: 10px; }
+
+    .icon-star {
+      width: 1em;
+      height: 1em;
+      fill: var(--color-ember-orange);
+      flex: none;
+    }
+
+    /* =========================================================
+       Shared typography
+       ========================================================= */
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-10);
+      font-size: var(--text-caption);
+      font-weight: 400;
+      line-height: 1.18;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .eyebrow span {
+      font-variant-numeric: tabular-nums;
+      padding: 3px 6px 2px;
+      border: var(--rule);
+      border-radius: var(--radius-tags);
+    }
+
+    .headline {
+      font-family: var(--font-canopee);
+      font-weight: 900;
+      font-size: var(--text-heading);
+      line-height: var(--leading-heading);
+      letter-spacing: var(--tracking-display);
+      text-transform: uppercase;
+      text-wrap: balance;
+    }
+    .headline--xl { font-size: var(--text-heading-xl); }
+    .headline--lg { font-size: var(--text-heading-lg); line-height: var(--leading-display); }
+
+    .caption {
+      font-size: var(--text-caption);
+      line-height: 1.3;
+      color: var(--color-charcoal-deep);
+    }
+
+    .text-link {
+      display: inline-flex;
+      gap: 0.35em;
+      font-size: 1.0625rem;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      transition: color 0.2s ease, text-decoration-thickness 0.2s ease;
+    }
+    .text-link:hover {
+      color: var(--color-pure-black);
+      text-decoration-thickness: 2px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 7px 2px;
+      background: var(--color-ember-orange);
+      color: #fff;
+      border-radius: var(--radius-tags);
+      font-family: var(--font-editorial-new);
+      font-size: 0.8125rem;
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* =========================================================
+       Masthead (sticky) and section index
+       ========================================================= */
+    .masthead {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--color-parchment);
+      border-bottom: var(--rule);
+    }
+    .masthead__bar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: var(--spacing-14);
+      min-height: var(--header-height);
+    }
+    .masthead__place {
+      font-size: 1.0625rem;
+      line-height: 1.1;
+    }
+    .masthead__name {
+      font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .menu-button {
+      justify-self: end;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-10);
+      min-height: 44px;
+      padding: 0 2px;
+      background: none;
+      border: 0;
+      font-size: 1.0625rem;
+      cursor: pointer;
+    }
+    .menu-button__icon {
+      display: grid;
+      gap: 5px;
+      width: 26px;
+    }
+    .menu-button__icon span {
+      height: 1.5px;
+      background: var(--color-ink-black);
+      transition: transform 0.25s ease;
+    }
+    .menu-button:hover .menu-button__icon span:nth-child(2) { transform: translateX(-5px); }
+
+    .index {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-22);
+      padding-block: var(--spacing-10);
+      border-bottom: 3px double var(--color-ink-black);
+      font-size: var(--text-caption);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .index__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-28);
+    }
+    .index__links a {
+      text-decoration: none;
+      padding-block: 4px;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease;
+    }
+    .index__links a:hover { border-color: var(--color-ink-black); }
+
+    /* =========================================================
+       Menu overlay
+       ========================================================= */
+    .menu {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      overflow-y: auto;
+      background: var(--color-ink-black);
+      color: var(--color-parchment);
+    }
+    .menu[hidden] { display: none; }
+    .menu__inner {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: var(--spacing-28);
+      min-height: 100%;
+      padding-block: var(--spacing-14) var(--spacing-28);
+    }
+    .menu__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 44px;
+      font-size: var(--text-caption);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .menu__close {
+      min-height: 44px;
+      padding: 0 14px;
+      background: none;
+      border: 1px solid var(--color-parchment);
+      border-radius: var(--radius-buttons);
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .menu__list { align-self: center; }
+    .menu__list li { border-bottom: 1px solid var(--color-charcoal); }
+    .menu__list a {
+      display: flex;
+      align-items: baseline;
+      gap: var(--spacing-17);
+      padding-block: 0.14em 0.06em;
+      font-family: var(--font-canopee);
+      font-weight: 900;
+      font-size: clamp(2.5rem, min(10vw, 13vh), 8rem);
+      line-height: 0.9;
+      letter-spacing: var(--tracking-display);
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s ease, padding 0.25s ease;
+    }
+    .menu__list a:hover { color: var(--color-ember-orange); padding-left: 0.12em; }
+    .menu__num {
+      font-family: var(--font-editorial-new);
+      font-size: var(--text-caption);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+    }
+    .menu__foot { font-size: 1.0625rem; }
+
+    /* =========================================================
+       Display banners
+       ========================================================= */
+    .banner {
+      background: var(--color-ink-black);
+      color: var(--color-parchment);
+      overflow: hidden;
+    }
+    .banner__word {
+      padding-top: clamp(14px, 2vw, 28px);
+      font-family: var(--font-canopee);
+      font-weight: 900;
+      line-height: 0.74;
+      letter-spacing: var(--tracking-display);
+      text-transform: uppercase;
+    }
+    .fit {
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 24vw; /* fallback; script fits the word to the column */
+      padding-bottom: 0.06em;
+    }
+    .fit--descender { padding-bottom: 0.24em; } /* room for the J tail */
+    .banner__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-14);
+      padding-block: var(--spacing-14) var(--spacing-17);
+      border-top: 1px solid var(--color-charcoal);
+      font-size: var(--text-body-sm);
+      line-height: 1.27;
+    }
+    .banner__meta .icon-star { width: 22px; height: 22px; }
+    .banner__meta p:last-child { text-align: right; }
+
+    /* =========================================================
+       Sections
+       ========================================================= */
+    .section {
+      padding-block: var(--section-space);
+    }
+    .section + .section { border-top: var(--rule); }
+
+    .section__head {
+      display: grid;
+      gap: var(--spacing-17);
+      margin-bottom: var(--spacing-43);
+    }
+    .section__head-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--spacing-17) var(--spacing-43);
+    }
+    .section__note {
+      max-width: 34ch;
+      font-size: var(--text-lede);
+      line-height: 1.3;
+    }
+
+    /* ---------- About ---------- */
+    .about__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr) minmax(0, 0.9fr);
+      gap: var(--spacing-43);
+    }
+    .about__grid > * + * {
+      padding-left: var(--spacing-43);
+      border-left: var(--rule);
+    }
+
+    .portrait {
+      display: grid;
+      gap: var(--spacing-10);
+      align-content: start;
+    }
+    .portrait img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.08);
+      mix-blend-mode: multiply;
+      transition: filter 0.5s ease;
+    }
+    .portrait:hover img { filter: grayscale(0) contrast(1); }
+    .portrait figcaption {
+      padding-top: var(--spacing-10);
+      border-top: var(--rule);
+      font-style: italic;
+    }
+
+    .about__story {
+      display: grid;
+      gap: var(--spacing-28);
+      align-content: start;
+    }
+    .lede {
+      max-width: 60ch;
+      font-size: var(--text-lede);
+      line-height: 1.42;
+    }
+    .dropcap::first-letter {
+      float: left;
+      margin: 0.04em 0.1em 0 0;
+      font-family: var(--font-canopee);
+      font-weight: 900;
+      font-size: 4.65em;
+      line-height: 0.78;
+    }
+
+    .facts { border-top: var(--rule); }
+    .facts div {
+      display: grid;
+      grid-template-columns: 6.5rem 1fr;
+      gap: var(--spacing-14);
+      padding-block: var(--spacing-10);
+      border-bottom: 1px solid var(--color-charcoal);
+    }
+    .facts dt {
+      font-size: var(--text-caption);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-charcoal-deep);
+      padding-top: 0.2em;
+    }
+    .facts dd { font-size: 1.0625rem; }
+
+    .about__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-10) var(--spacing-28);
+    }
+
+    .about__side {
+      display: grid;
+      gap: var(--spacing-36);
+      align-content: start;
+    }
+
+    /* Stamp seal: the page's one ornamental moment */
+    .stamp-wrap {
+      width: min(100%, 250px);
+      justify-self: center;
+      filter: drop-shadow(-5px 3px 6px rgba(29, 29, 27, 0.2));
+      transform: rotate(-4deg);
+    }
+    .stamp {
+      --r: 5px;
+      padding: calc(var(--r) * 2.4);
+      background: var(--color-bone-cream);
+      -webkit-mask:
+        radial-gradient(var(--r), #0000 97%, #000) round calc(var(--r) * -1.5) calc(var(--r) * -1.5) / calc(var(--r) * 3) calc(var(--r) * 3),
+        linear-gradient(#000 0 0) no-repeat 50% / calc(100% - var(--r) * 3) calc(100% - var(--r) * 3);
+      mask:
+        radial-gradient(var(--r), #0000 97%, #000) round calc(var(--r) * -1.5) calc(var(--r) * -1.5) / calc(var(--r) * 3) calc(var(--r) * 3),
+        linear-gradient(#000 0 0) no-repeat 50% / calc(100% - var(--r) * 3) calc(100% - var(--r) * 3);
+    }
+    .stamp__inner {
+      display: grid;
+      justify-items: center;
+      gap: var(--spacing-12);
+      padding: var(--spacing-17) var(--spacing-14) var(--spacing-14);
+      border: 1px solid var(--color-ember-orange);
+      background: var(--color-parchment);
+      text-align: center;
+    }
+    .stamp__sun {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 64%;
+      aspect-ratio: 1;
+    }
+    .stamp__rays {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: repeating-conic-gradient(var(--color-ember-orange) 0deg 4deg, transparent 4deg 10deg);
+    }
+    .stamp__disc {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 52%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: var(--color-ember-orange);
+      box-shadow: 0 0 0 6px var(--color-parchment);
+      color: var(--color-parchment);
+      font-family: var(--font-canopee);
+      font-style: italic;
+      font-weight: 900;
+      font-size: 2.6rem;
+      line-height: 1;
+    }
+    .stamp__sign {
+      width: 100%;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--color-ink-black);
+      font-family: var(--font-canopee);
+      font-style: italic;
+      font-size: 1.5rem;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .stamp__rows {
+      width: 100%;
+      display: grid;
+      gap: 3px;
+      font-size: 0.6875rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .stamp__rows div {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--spacing-10);
+    }
+    .stamp__rows dt { color: var(--color-charcoal-deep); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .stamp-wrap { animation: stamp-in 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.25) 0.25s both; }
+      .stamp__rays { animation: spin 90s linear infinite; }
+    }
+    @keyframes stamp-in {
+      from { transform: rotate(-16deg) scale(1.35); }
+      to   { transform: rotate(-4deg) scale(1); }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .side-title {
+      padding-bottom: var(--spacing-10);
+      border-bottom: var(--rule);
+      font-family: var(--font-domaine-display);
+      font-weight: 500;
+      font-size: var(--text-heading-sm);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .edu li {
+      display: grid;
+      gap: 2px;
+      padding-block: var(--spacing-14);
+      border-bottom: 1px solid var(--color-charcoal);
+    }
+    .edu__when {
+      font-size: var(--text-caption);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.04em;
+      color: var(--color-charcoal-deep);
+    }
+    .edu__what {
+      font-family: var(--font-domaine-display);
+      font-weight: 500;
+      font-size: var(--text-subheading);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .edu__where { font-size: var(--text-body-sm); line-height: 1.3; }
+    .edu__score {
+      font-size: var(--text-caption);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ---------- Experience ---------- */
+    .exp-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: var(--spacing-43);
+    }
+    .story { display: grid; gap: var(--spacing-22); align-content: start; }
+    .story--side {
+      padding-left: var(--spacing-43);
+      border-left: var(--rule);
+    }
+    .story--long {
+      grid-column: 1 / -1;
+      padding-top: var(--spacing-43);
+      border-top: var(--rule);
+    }
+    .story__top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--spacing-10) var(--spacing-17);
+    }
+    .story__org {
+      font-family: var(--font-domaine-display);
+      font-weight: 500;
+      font-size: var(--text-heading);
+      line-height: var(--leading-heading);
+      letter-spacing: -0.045em;
+      text-wrap: balance;
+    }
+    .story--side .story__org { font-size: clamp(2rem, 3.4vw, 3rem); }
+    .story__dates {
+      font-size: var(--text-caption);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .roles { border-top: var(--rule); }
+    .roles li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 2px var(--spacing-14);
+      padding-block: var(--spacing-10);
+      border-bottom: 1px solid var(--color-charcoal);
+    }
+    .roles__title { font-size: var(--text-subheading); line-height: 1.18; }
+    .roles__when {
+      font-size: var(--text-caption);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-charcoal-deep);
+    }
+
+    .points {
+      display: grid;
+      gap: var(--spacing-14);
+    }
+    .points li {
+      position: relative;
+      padding-left: 1.25em;
+      max-width: 62ch;
+    }
+    .points li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 0.42em;
+      height: 0.42em;
+      background: var(--color-ink-black);
+    }
+
+    .pull {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: end;
+      gap: var(--spacing-10) var(--spacing-28);
+      padding: var(--card-padding);
+      background: var(--color-bone-cream);
+      border-radius: var(--radius-cards);
+    }
+    .pull__name {
+      font-family: var(--font-canopee);
+      font-weight: 900;
+      font-style: italic;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 0.8;
+      letter-spacing: -0.05em;
+    }
+    .pull__years {
+      font-family: var(--font-canopee);
+      font-weight: 900;
+      font-size: clamp(1.5rem, 2.4vw, 2rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variant-numeric: lining-nums;
+    }
+    .pull__note {
+      grid-column: 1 / -1;
+      max-width: 52ch;
+      font-size: var(--text-body-sm);
+      line-height: 1.35;
+    }
+
+    .plate {
+      display: grid;
+      gap: var(--spacing-10);
+    }
+    .plate__art {
+      display: grid;
+      place-content: center;
+      gap: 0.12em;
+      aspect-ratio: 4 / 3;
+      padding: var(--spacing-22);
+      background: var(--color-ink-black);
+      color: var(--color-parchment);
+      font-family: var(--font-canopee);
+      font-weight: 900;
+      font-size: clamp(2.5rem, 4.6vw, 4.25rem);
+      line-height: 0.82;
+      letter-spacing: -0.045em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .plate__art i { font-weight: 400; }
+    .plate__art sup { font-size: 0.45em; line-height: 0; vertical-align: 0.95em; }
+    .plate__art--tall { aspect-ratio: 4 / 5; font-size: clamp(3rem, 6vw, 6rem); }
+    .plate__caption { display: grid; gap: 2px; }
+    .plate__title {
+      font-family: var(--font-domaine-display);
+      font-weight: 500;
+      font-size: var(--text-subheading);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .longform {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: var(--spacing-43);
+    }
+    .longform__text {
+      columns: 2 18rem;
+      column-gap: var(--spacing-43);
+      column-rule: 1px solid var(--color-charcoal);
+      line-height: 1.5;
+    }
+    .longform__text p::first-letter {
+      float: left;
+      margin: 0.06em 0.08em 0 0;
+      font-family: var(--font-germgoth);
+      font-size: 4.4em;
+      line-height: 0.74;
+    }
+    .highlights {
+      align-self: start;
+      padding-left: var(--spacing-43);
+      border-left: var(--rule);
+    }
+    .highlights li {
+      display: grid;
+      gap: 2px;
+      padding-block: var(--spacing-14);
+      border-bottom: 1px solid var(--color-charcoal);
+    }
+    .highlights li:first-child { padding-top: 0; }
+    .highlights strong {
+      font-family: var(--font-domaine-display);
+      font-size: var(--text-subheading);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .highlights span { font-size: var(--text-body-sm); line-height: 1.35; }
+
+    /* ---------- Projects ---------- */
+    .projects__head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: var(--spacing-43);
+      align-items: center;
+      margin-bottom: var(--spacing-58);
+    }
+    .projects__intro {
+      display: grid;
+      justify-items: center;
+      gap: var(--spacing-22);
+      text-align: center;
+    }
+    .projects__sub {
+      max-width: 34ch;
+      font-size: var(--text-lede);
+      line-height: 1.35;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-10);
+      padding-bottom: var(--spacing-22);
+      margin-bottom: var(--spacing-28);
+      border-bottom: var(--rule);
+    }
+    .filter {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
+      min-height: 40px;
+      padding: 8px 14px;
+      background: transparent;
+      border: var(--rule);
+      border-radius: var(--radius-buttons);
+      font-size: 0.9375rem;
+      line-height: 1.2;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    .filter:hover { background: var(--color-bone-cream); }
+    .filter[aria-pressed="true"] {
+      background: var(--color-ink-black);
+      color: var(--color-parchment);
+    }
+    .filter__count {
+      font-size: 0.75rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+      gap: var(--spacing-22);
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-10);
+      min-height: 176px;
+      padding: var(--card-padding);
+      background: var(--color-bone-cream);
+      border-radius: var(--radius-cards);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .card[hidden] { display: none; }
+    .card:hover {
+      transform: translate(3px, -3px);
+      box-shadow: rgba(29, 29, 27, 0.24) -8px 8px 10px 0px;
+    }
+    .card__meta {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--spacing-10);
+      font-size: 0.8125rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-charcoal-deep);
+    }
+    .card__no { font-variant-numeric: tabular-nums; }
+    .card__title {
+      margin-top: auto;
+      padding-top: var(--spacing-22);
+      font-weight: 300;
+      font-size: var(--text-subheading);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+    .card__note {
+      padding-top: var(--spacing-10);
+      border-top: 1px solid var(--color-charcoal);
+      font-size: var(--text-body-sm);
+      line-height: 1.3;
+    }
+
+    /* ---------- Skills ---------- */
+    .skills { background: var(--color-bone-cream); }
+    .skills__inner { display: grid; gap: var(--spacing-36); }
+    .skill-list {
+      font-family: var(--font-canopee);
+      font-weight: 900;
+      font-size: clamp(2.5rem, 7.4vw, 6.8125rem);
+      line-height: 0.9;
+      letter-spacing: var(--tracking-display);
+      text-transform: uppercase;
+    }
+    .skill-list li { display: inline; }
+    .skill-list .icon-star {
+      display: inline-block;
+      width: 0.42em;
+      height: 0.42em;
+      margin: 0 0.16em 0 0.12em;
+      vertical-align: 0.14em;
+    }
+    .skills__note {
+      max-width: 62ch;
+      padding-top: var(--spacing-17);
+      border-top: var(--rule);
+      font-size: var(--text-lede);
+      line-height: 1.4;
+    }
+
+    /* ---------- Contact ---------- */
+    .contact__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: var(--spacing-43);
+      align-items: end;
+    }
+    .contact__intro { display: grid; gap: var(--spacing-22); }
+    .contact__lede { max-width: 40ch; font-size: var(--text-lede); line-height: 1.4; }
+    .contact__list { border-top: var(--rule); }
+    .contact__list li {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 4px var(--spacing-14);
+      padding-block: var(--spacing-17);
+      border-bottom: var(--rule);
+    }
+    .contact__label {
+      grid-column: 1 / -1;
+      font-size: var(--text-caption);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-charcoal-deep);
+    }
+    .contact__value {
+      font-family: var(--font-domaine-display);
+      font-weight: 500;
+      font-size: clamp(1.375rem, 2.6vw, 2.125rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      overflow-wrap: anywhere;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+    .contact__value:hover { color: var(--color-pure-black); }
+    .copy {
+      min-height: 40px;
+      padding: 6px 12px;
+      background: transparent;
+      border: var(--rule);
+      border-radius: var(--radius-buttons);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    .copy:hover { background: var(--color-ink-black); color: var(--color-parchment); }
+
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--spacing-10) var(--spacing-28);
+      padding-block: var(--spacing-22) var(--spacing-36);
+      border-top: var(--rule);
+      font-size: var(--text-caption);
+    }
+    .footer a { text-underline-offset: 3px; }
+
+    /* =========================================================
+       Responsive
+       ========================================================= */
+    @media (max-width: 1100px) {
+      .about__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+      .about__side {
+        grid-column: 1 / -1;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: var(--spacing-43);
+        padding-left: 0;
+        padding-top: var(--spacing-43);
+        border-left: 0;
+        border-top: var(--rule);
+      }
+      .stamp-wrap { width: 230px; align-self: start; }
+
+      .exp-grid { grid-template-columns: minmax(0, 1fr); }
+      .story--side {
+        padding-left: 0;
+        padding-top: var(--spacing-43);
+        border-left: 0;
+        border-top: var(--rule);
+      }
+      .story--side .plate__art { aspect-ratio: 16 / 7; }
+      .longform { grid-template-columns: minmax(0, 1fr); }
+      .highlights {
+        padding-left: 0;
+        border-left: 0;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--spacing-22);
+      }
+      .highlights li { padding-top: var(--spacing-14); border-bottom: 0; border-top: var(--rule); }
+      .highlights li:first-child { padding-top: var(--spacing-14); }
+
+      .projects__head { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .projects__intro { grid-column: 1 / -1; order: -1; }
+      .plate__art--tall { aspect-ratio: 4 / 3; }
+    }
+
+    @media (max-width: 760px) {
+      :root { --header-height: 54px; }
+      .masthead__place { display: none; }
+      .masthead__bar { grid-template-columns: 1fr auto; }
+      .masthead__name { justify-self: start; }
+      .index__links,
+      .index__edition { display: none; }
+
+      .banner__meta { flex-direction: column; align-items: flex-start; gap: var(--spacing-7); }
+      .banner__meta .icon-star { display: none; }
+      .banner__meta p:last-child { text-align: left; }
+
+      .about__grid { grid-template-columns: minmax(0, 1fr); }
+      .about__grid > * + * {
+        padding-left: 0;
+        padding-top: var(--spacing-36);
+        border-left: 0;
+        border-top: var(--rule);
+      }
+      .portrait { max-width: 420px; }
+      .about__side { grid-template-columns: minmax(0, 1fr); }
+      .stamp-wrap { justify-self: start; width: min(78%, 240px); }
+
+      .pull { grid-template-columns: minmax(0, 1fr); }
+      .highlights { grid-template-columns: minmax(0, 1fr); gap: 0; }
+
+      .projects__head { grid-template-columns: minmax(0, 1fr); }
+      .projects__intro { justify-items: start; text-align: left; }
+      .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-14); }
+      .card { --card-padding: 16px; min-height: 150px; }
+      .card__meta { flex-direction: column; gap: 2px; font-size: 0.75rem; }
+      .card__title { font-size: 1.125rem; padding-top: var(--spacing-14); }
+      .card__note { font-size: 0.875rem; }
+
+      .contact__grid { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Shared star icon -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="star" viewBox="0 0 24 24">
+      <path d="M12 0l2.6 8.4L23.4 6l-6.2 6 6.2 6-8.8-2.4L12 24l-2.6-8.4L.6 18l6.2-6L.6 6l8.8 2.4z"/>
+    </symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="masthead">
+    <div class="masthead__bar wrap">
+      <p class="masthead__place">Gandhinagar, IN</p>
+      <a class="masthead__name" href="#top">Sharaj Shreyas</a>
+      <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="menu">
+        <span>Menu</span>
+        <span class="menu-button__icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Site sections" hidden>
+    <div class="menu__inner wrap">
+      <div class="menu__top">
+        <p>Sections</p>
+        <button class="menu__close" id="menu-close" type="button">Close</button>
+      </div>
+      <ol class="menu__list">
+        <li><a href="#about"><span class="menu__num">01</span>About</a></li>
+        <li><a href="#experience"><span class="menu__num">02</span>Experience</a></li>
+        <li><a href="#projects"><span class="menu__num">03</span>Projects</a></li>
+        <li><a href="#skills"><span class="menu__num">04</span>Skills</a></li>
+        <li><a href="#contact"><span class="menu__num">05</span>Contact</a></li>
+      </ol>
+      <p class="menu__foot">sharajshreyas@iitgn.ac.in</p>
+    </div>
+  </div>
+
+  <nav class="index wrap" aria-label="Sections">
+    <p>Fresher at IIT Gandhinagar</p>
+    <ul class="index__links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p class="index__edition">Portfolio, 2026</p>
+  </nav>
+
+  <main id="main">
+    <!-- Opening banner -->
+    <section class="banner" id="top" aria-labelledby="site-title">
+      <div class="wrap">
+        <h1 class="banner__word" id="site-title">
+          <span class="visually-hidden">Sharaj Shreyas</span>
+          <span class="fit fit--descender" aria-hidden="true">Sharaj</span>
+        </h1>
+        <div class="banner__meta">
+          <p>Civil Engineering student, IIT Gandhinagar</p>
+          <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg>
+          <p>Robotics, technology, design and building things</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 About -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="wrap about__grid">
+        <figure class="portrait">
+          <img src="assets/sharaj-shreyas.jpg" width="359" height="478" alt="Sharaj Shreyas in a dark blazer and white shirt, standing outdoors beside a brick wall">
+          <figcaption class="caption">Sharaj Shreyas, Civil Engineering, IIT Gandhinagar.</figcaption>
+        </figure>
+
+        <div class="about__story">
+          <p class="eyebrow"><span>01</span>About</p>
+          <h2 class="headline headline--xl" id="about-title">Robotics, design &amp; building things!</h2>
+          <p class="lede dropcap">I’m Sharaj Shreyas, a Civil Engineering student at IIT Gandhinagar, passionate about robotics, technology, design, and building things. I enjoy building projects while constantly learning, experimenting, and creating.</p>
+          <dl class="facts">
+            <div><dt>Now</dt><dd>Member, Mean Mechanics</dd></div>
+            <div><dt>Led</dt><dd>Makerspace CFAL, as President and Vice President</dd></div>
+            <div><dt>Studying</dt><dd>Civil Engineering, IIT Gandhinagar</dd></div>
+          </dl>
+          <p class="about__links">
+            <a class="text-link" href="#projects">See the projects <span aria-hidden="true">↓</span></a>
+            <a class="text-link" href="#contact">Get in touch <span aria-hidden="true">↓</span></a>
+          </p>
+        </div>
+
+        <aside class="about__side" aria-labelledby="education-title">
+          <div class="stamp-wrap" aria-hidden="true">
+            <div class="stamp">
+              <div class="stamp__inner">
+                <div class="stamp__sun">
+                  <span class="stamp__rays"></span>
+                  <span class="stamp__disc">S</span>
+                </div>
+                <p class="stamp__sign">Sharaj Shreyas</p>
+                <dl class="stamp__rows">
+                  <div><dt>Name</dt><dd>Sharaj Shreyas</dd></div>
+                  <div><dt>Branch</dt><dd>Civil Engineering</dd></div>
+                </dl>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="side-title" id="education-title">Education</h3>
+            <ol class="edu">
+              <li>
+                <p class="edu__when">2026 – Present</p>
+                <p class="edu__what">Civil Engineering</p>
+                <p class="edu__where">IIT Gandhinagar</p>
+              </li>
+              <li>
+                <p class="edu__when">2024 – 2026</p>
+                <p class="edu__what">Pre-University College</p>
+                <p class="edu__where">The Learning Centre PUC</p>
+                <p class="edu__score">Score 96.67</p>
+              </li>
+              <li>
+                <p class="edu__when">2017 – 2024</p>
+                <p class="edu__what">Schooling, Class 10</p>
+                <p class="edu__where">Vidyadayinee English Medium School</p>
+                <p class="edu__score">Score 96.4</p>
+              </li>
+              <li>
+                <p class="edu__when">2012 – 2017</p>
+                <p class="edu__what">Schooling</p>
+                <p class="edu__where">Shree Mahalingeshwara English Medium School</p>
+              </li>
+            </ol>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 02 Experience -->
+    <section class="section" id="experience" aria-labelledby="experience-title">
+      <div class="wrap">
+        <header class="section__head">
+          <p class="eyebrow"><span>02</span>Experience</p>
+          <div class="section__head-row">
+            <h2 class="headline headline--lg" id="experience-title">Labs, teams &amp; techfests</h2>
+            <p class="section__note">From ATL Lab in 2018 to an underwater submersible today.</p>
+          </div>
+        </header>
+
+        <div class="exp-grid">
+          <article class="story" aria-labelledby="exp-cfal">
+            <div class="story__top">
+              <h3 class="story__org" id="exp-cfal">Makerspace CFAL</h3>
+              <p class="story__dates">Jun 2024 – Jul 2026</p>
+            </div>
+            <ul class="roles">
+              <li><span class="roles__title">President</span><span class="roles__when">Apr 2025 – Jul 2026</span></li>
+              <li><span class="roles__title">Vice President</span><span class="roles__when">Jun 2024 – Apr 2025</span></li>
+            </ul>
+            <ul class="points">
+              <li>Led the makerspace team, managing hardware, software and design teams across projects and competitions.</li>
+              <li>Designed, developed and supervised robotics projects, including soccer bots and line followers, for events and demonstrations.</li>
+              <li>Organized workshops and the annual techfest, MakersFete, coordinating the team, resources, management, marketing and execution.</li>
+              <li>Designed and built headphone amps, and monetized the project through direct sales.</li>
+            </ul>
+            <div class="pull">
+              <p class="pull__name">MakersFete</p>
+              <p class="pull__years">2024 &amp; 2025</p>
+              <p class="pull__note">The makerspace’s annual techfest, organized in both years alongside its workshops.</p>
+            </div>
+          </article>
+
+          <article class="story story--side" aria-labelledby="exp-mm">
+            <div class="story__top">
+              <h3 class="story__org" id="exp-mm">Mean Mechanics</h3>
+              <span class="badge">New</span>
+            </div>
+            <ul class="roles">
+              <li><span class="roles__title">Member</span><span class="roles__when">Aug 2026 – Present</span></li>
+            </ul>
+            <p>A new team member, currently working on the Underwater Submersible project.</p>
+            <figure class="plate">
+              <div class="plate__art plate__art--tall" aria-hidden="true"><span>Under</span><span><i>water</i></span></div>
+              <figcaption class="plate__caption">
+                <span class="plate__title">Underwater Submersible</span>
+                <span class="caption">Current project, with Mean Mechanics</span>
+              </figcaption>
+            </figure>
+          </article>
+
+          <article class="story story--long" aria-labelledby="exp-atl">
+            <div class="story__top">
+              <h3 class="story__org" id="exp-atl">ATL Lab</h3>
+              <p class="story__dates">2018 – 2024</p>
+            </div>
+            <div class="longform">
+              <div class="longform__text">
+                <p>ATL lab days meant active engagement in innovation, entrepreneurship and hands-on projects. Selection for the One Lab One Week initiative at NAL and ISRO gave strong exposure to aerospace research, lab facilities and scientific experiments. Alongside this, the startup incubation program at InUnity meant working with a team to take ideas from scratch to prototypes and business pitches. Interschool science and science model competitions won me prizes for presenting solutions, and visits to research labs, startups and incubators taught me how ideas are developed and scaled.</p>
+              </div>
+              <ul class="highlights">
+                <li><strong>One Lab One Week</strong><span>Selected for the initiative at NAL and ISRO</span></li>
+                <li><strong>InUnity</strong><span>Startup incubation, from idea to prototype and pitch</span></li>
+                <li><strong>Science competitions</strong><span>Prizes at interschool science and model contests</span></li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 Projects -->
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="wrap">
+        <div class="projects__head">
+          <figure class="plate">
+            <div class="plate__art plate__art--tall" aria-hidden="true"><span>3<i>kg</i></span><span>1<i>kg</i></span></div>
+            <figcaption class="plate__caption">
+              <span class="plate__title">Soccer bots</span>
+              <span class="caption">Built in two weight classes</span>
+            </figcaption>
+          </figure>
+
+          <div class="projects__intro">
+            <p class="eyebrow"><span>03</span>Projects</p>
+            <h2 class="headline headline--xl" id="projects-title">All builds!</h2>
+            <p class="projects__sub">Eighteen builds, from battlebots and an 8-bit computer to a cheap ECG machine.</p>
+          </div>
+
+          <figure class="plate">
+            <div class="plate__art plate__art--tall" aria-hidden="true"><span>10<sup>3</sup></span></div>
+            <figcaption class="plate__caption">
+              <span class="plate__title">10×10×10 LED cube</span>
+              <span class="caption">A thousand LEDs, ten to a side</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="filters" role="group" aria-label="Filter projects by category">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">All <span class="filter__count"></span></button>
+          <button class="filter" type="button" data-filter="robotics" aria-pressed="false">Robotics <span class="filter__count"></span></button>
+          <button class="filter" type="button" data-filter="electronics" aria-pressed="false">Electronics <span class="filter__count"></span></button>
+          <button class="filter" type="button" data-filter="flight" aria-pressed="false">Flight &amp; RC <span class="filter__count"></span></button>
+          <button class="filter" type="button" data-filter="games" aria-pressed="false">Games <span class="filter__count"></span></button>
+          <button class="filter" type="button" data-filter="science" aria-pressed="false">Science &amp; agriculture <span class="filter__count"></span></button>
+        </div>
+        <p class="visually-hidden" id="filter-status" aria-live="polite"></p>
+
+        <ol class="project-grid" id="project-grid">
+          <li class="card" data-cat="robotics">
+            <p class="card__meta"><span>Robotics</span><span class="card__no">No. 01</span></p>
+            <h3 class="card__title">Small weight class battlebots</h3>
+          </li>
+          <li class="card" data-cat="robotics">
+            <p class="card__meta"><span>Robotics</span><span class="card__no">No. 02</span></p>
+            <h3 class="card__title">Soccer bots</h3>
+            <p class="card__note">Two weight classes: 3 kg and 1 kg.</p>
+          </li>
+          <li class="card" data-cat="robotics">
+            <p class="card__meta"><span>Robotics</span><span class="card__no">No. 03</span></p>
+            <h3 class="card__title">Line follower bot</h3>
+          </li>
+          <li class="card" data-cat="robotics">
+            <p class="card__meta"><span>Robotics</span><span class="card__no">No. 04</span></p>
+            <h3 class="card__title">Prosthetic arm</h3>
+          </li>
+          <li class="card" data-cat="electronics">
+            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 05</span></p>
+            <h3 class="card__title">8-bit computer</h3>
+          </li>
+          <li class="card" data-cat="electronics">
+            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 06</span></p>
+            <h3 class="card__title">10×10×10 LED cube</h3>
+            <p class="card__note">1,000 LEDs, ten to a side.</p>
+          </li>
+          <li class="card" data-cat="electronics">
+            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 07</span></p>
+            <h3 class="card__title">Headphone amps</h3>
+            <p class="card__note">Designed, built and sold directly.</p>
+          </li>
+          <li class="card" data-cat="electronics">
+            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 08</span></p>
+            <h3 class="card__title">Cheap ECG machine</h3>
+          </li>
+          <li class="card" data-cat="electronics">
+            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 09</span></p>
+            <h3 class="card__title">Useless machine</h3>
+          </li>
+          <li class="card" data-cat="electronics">
+            <p class="card__meta"><span>Electronics</span><span class="card__no">No. 10</span></p>
+            <h3 class="card__title">Arduino and microcontroller projects</h3>
+                      </li>
+          <li class="card" data-cat="flight">
+            <p class="card__meta"><span>Flight &amp; RC</span><span class="card__no">No. 11</span></p>
+            <h3 class="card__title">RC planes</h3>
+          </li>
+          <li class="card" data-cat="flight">
+            <p class="card__meta"><span>Flight &amp; RC</span><span class="card__no">No. 12</span></p>
+            <h3 class="card__title">RC cars and boats</h3>
+          </li>
+          <li class="card" data-cat="flight">
+            <p class="card__meta"><span>Flight &amp; RC</span><span class="card__no">No. 13</span></p>
+            <h3 class="card__title">Flight simulator yoke setup</h3>
+          </li>
+          <li class="card" data-cat="games">
+            <p class="card__meta"><span>Games</span><span class="card__no">No. 14</span></p>
+            <h3 class="card__title">DuelMaze</h3>
+            <p class="card__note">A fun two-player physical maze game.</p>
+          </li>
+          <li class="card" data-cat="games">
+            <p class="card__meta"><span>Games</span><span class="card__no">No. 15</span></p>
+            <h3 class="card__title">Memory game</h3>
+          </li>
+          <li class="card" data-cat="science">
+            <p class="card__meta"><span>Science</span><span class="card__no">No. 16</span></p>
+            <h3 class="card__title">Biofloc fish farming</h3>
+            <p class="card__note">A project on Biofloc fish farming techniques.</p>
+          </li>
+          <li class="card" data-cat="science">
+            <p class="card__meta"><span>Science</span><span class="card__no">No. 17</span></p>
+            <h3 class="card__title">A new construction material</h3>
+            <p class="card__note">Made from organic compounds.</p>
+          </li>
+          <li class="card" data-cat="science">
+            <p class="card__meta"><span>Agriculture</span><span class="card__no">No. 18</span></p>
+            <h3 class="card__title">Agriculture automation</h3>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 04 Skills -->
+    <section class="section skills" id="skills" aria-labelledby="skills-title">
+      <div class="wrap skills__inner">
+        <h2 class="eyebrow" id="skills-title"><span>04</span>Skills</h2>
+        <ul class="skill-list">
+          <li>Hardware <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
+          <li>CAD <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
+          <li>Team leadership &amp; management <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
+          <li>Prototyping <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
+          <li>Product refinement</li>
+        </ul>
+        <p class="skills__note">Put to work on robots, RC aircraft, digital electronics and Arduino builds, and on running a makerspace of hardware, software and design teams.</p>
+      </div>
+    </section>
+
+    <!-- Closing banner -->
+    <div class="banner" aria-hidden="true">
+      <div class="wrap">
+        <p class="banner__word"><span class="fit">Shreyas</span></p>
+      </div>
+    </div>
+
+    <!-- 05 Contact -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="wrap contact__grid">
+        <div class="contact__intro">
+          <p class="eyebrow"><span>05</span>Contact</p>
+          <h2 class="headline headline--lg" id="contact-title">Get in touch.</h2>
+          <p class="contact__lede">Email or call about robotics, design, or something you want built.</p>
+        </div>
+        <ul class="contact__list">
+          <li>
+            <p class="contact__label">Email</p>
+            <a class="contact__value" href="mailto:sharajshreyas@iitgn.ac.in">sharajshreyas@iitgn.ac.in</a>
+            <button class="copy" type="button" data-copy="sharajshreyas@iitgn.ac.in" aria-label="Copy email address">Copy</button>
+          </li>
+          <li>
+            <p class="contact__label">Phone</p>
+            <a class="contact__value" href="tel:+919480347138">+91 94803 47138</a>
+            <button class="copy" type="button" data-copy="+91 9480347138" aria-label="Copy phone number">Copy</button>
+          </li>
+          <li>
+            <p class="contact__label">Based at</p>
+            <p class="contact__value">IIT Gandhinagar, India</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer wrap">
+    <p>© 2026 Sharaj Shreyas</p>
+    <p>Set in Bodoni Moda, Source Serif 4 and Pirata One</p>
+    <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+  </footer>
+
+  <script>
+    (() => {
+      /* ---------- Menu overlay ---------- */
+      const menuButton = document.getElementById('menu-button');
+      const menu = document.getElementById('menu');
+      const menuClose = document.getElementById('menu-close');
+
+      const openMenu = () => {
+        menu.hidden = false;
+        menuButton.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('menu-open');
+        menu.querySelector('.menu__list a').focus();
+      };
+      const closeMenu = (returnFocus = true) => {
+        menu.hidden = true;
+        menuButton.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-open');
+        if (returnFocus) menuButton.focus();
+      };
+
+      menuButton.addEventListener('click', () => (menu.hidden ? openMenu() : closeMenu()));
+      menuClose.addEventListener('click', () => closeMenu());
+      menu.addEventListener('click', (event) => {
+        if (event.target.closest('a')) closeMenu(false);
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !menu.hidden) closeMenu();
+      });
+      // Keep keyboard focus inside the open menu
+      menu.addEventListener('keydown', (event) => {
+        if (event.key !== 'Tab') return;
+        const items = [...menu.querySelectorAll('a, button')];
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+
+      /* ---------- Fit banner words to the column width ---------- */
+      const fitWords = [...document.querySelectorAll('.fit')];
+      const fitAll = () => {
+        fitWords.forEach((word) => {
+          word.style.fontSize = '';
+          const box = word.parentElement;
+          const styles = getComputedStyle(box);
+          const available = box.clientWidth - parseFloat(styles.paddingLeft) - parseFloat(styles.paddingRight);
+          const natural = word.getBoundingClientRect().width;
+          const size = parseFloat(getComputedStyle(word).fontSize);
+          if (natural > 0) word.style.fontSize = `${(size * available / natural).toFixed(2)}px`;
+        });
+      };
+      let frame;
+      const scheduleFit = () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(fitAll);
+      };
+      fitAll();
+      if (document.fonts) document.fonts.ready.then(fitAll);
+      window.addEventListener('resize', scheduleFit);
+
+      /* ---------- Project filters ---------- */
+      const cards = [...document.querySelectorAll('#project-grid .card')];
+      const filters = [...document.querySelectorAll('[data-filter]')];
+      const status = document.getElementById('filter-status');
+      const matches = (card, filter) => filter === 'all' || card.dataset.cat === filter;
+
+      filters.forEach((button) => {
+        const filter = button.dataset.filter;
+        const count = cards.filter((card) => matches(card, filter)).length;
+        button.querySelector('.filter__count').textContent = count;
+
+        button.addEventListener('click', () => {
+          filters.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+          cards.forEach((card) => { card.hidden = !matches(card, filter); });
+          status.textContent = `Showing ${count} project${count === 1 ? '' : 's'}`;
+        });
+      });
+
+      /* ---------- Copy contact details ---------- */
+      document.querySelectorAll('[data-copy]').forEach((button) => {
+        const label = button.textContent;
+        button.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(button.dataset.copy);
+            button.textContent = 'Copied';
+          } catch {
+            const value = button.previousElementSibling;
+            const range = document.createRange();
+            range.selectNodeContents(value);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            button.textContent = 'Selected';
+          }
+          setTimeout(() => { button.textContent = label; }, 1800);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
