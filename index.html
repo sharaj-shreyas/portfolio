@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sharaj Shreyas Portfolio</title>
-  <meta name="description" content="Sharaj Shreyas, Civil Engineering student at IIT Gandhinagar. Robotics, hardware, CAD and prototyping: battlebots, soccer bots, RC planes, an 8-bit computer and more.">
+  <meta name="description" content="Sharaj Shreyas, Civil Engineering student at IIT Gandhinagar. Robotics, hardware, CAD and prototyping: soccer bots, RC planes, an 8-bit computer, an LED cube and more.">
   <meta name="theme-color" content="#e2dedb">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,8 @@
        Tokens
        Layout idea: a broadsheet. Ink banners crash through a
        parchment page; content sits in 3 / 2 / 1 column newspaper
-       grids separated by hairline rules.
+       grids separated by hairline rules. Motion idea: type moves
+       like a split-flap board, letters flip on the X axis.
        ========================================================= */
     :root {
       /* Palette (from the design system) */
@@ -68,13 +69,14 @@
       --card-padding: 24px;
       --header-height: 58px;
 
-      /* Shape and depth */
+      /* Shape, depth and motion */
       --radius-tags: 2.88px;
       --radius-buttons: 2.88px;
       --radius-cards: 11.52px;
       --shadow-sm: rgba(29, 29, 27, 0.2) -4px 4px 6px 0px;
       --shadow-sm-2: rgba(29, 29, 27, 0.2) -5px 3px 6px 0px;
       --rule: 1px solid var(--color-ink-black);
+      --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
 
       color-scheme: light;
     }
@@ -160,6 +162,36 @@
       height: 1em;
       fill: var(--color-ember-orange);
       flex: none;
+    }
+
+    /* =========================================================
+       3D type: letters are split into spans by the script
+       ========================================================= */
+    .split .word {
+      display: inline-block;
+      white-space: nowrap;
+      perspective: 700px;
+    }
+    .split .char {
+      display: inline-block;
+      transform-origin: 50% 100%;
+      backface-visibility: hidden;
+    }
+    /* Waiting below the fold: letters lie flat, then stand up when scrolled to */
+    .split.is-pending .char {
+      transform: rotateX(-96deg);
+      opacity: 0;
+    }
+    .split.is-in .char {
+      transition:
+        transform var(--flip-duration, 0.8s) var(--ease-out) calc(var(--i) * var(--stagger, 28ms)),
+        opacity 0.3s linear calc(var(--i) * var(--stagger, 28ms));
+    }
+
+    /* Tilt toward the pointer (portrait, stamp) */
+    [data-tilt] {
+      transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      transition: transform 0.45s var(--ease-out);
     }
 
     /* =========================================================
@@ -341,7 +373,7 @@
       font-size: 1rem;
       cursor: pointer;
     }
-    .menu__list { align-self: center; }
+    .menu__list { align-self: center; perspective: 1200px; }
     .menu__list li { border-bottom: 1px solid var(--color-charcoal); }
     .menu__list a {
       display: flex;
@@ -367,6 +399,21 @@
     }
     .menu__foot { font-size: 1.0625rem; }
 
+    @media (prefers-reduced-motion: no-preference) {
+      .menu:not([hidden]) .menu__list li {
+        transform-origin: 50% 0;
+        animation: menu-flap 0.6s var(--ease-out) both;
+      }
+      .menu__list li:nth-child(2) { animation-delay: 0.05s; }
+      .menu__list li:nth-child(3) { animation-delay: 0.1s; }
+      .menu__list li:nth-child(4) { animation-delay: 0.15s; }
+      .menu__list li:nth-child(5) { animation-delay: 0.2s; }
+    }
+    @keyframes menu-flap {
+      from { transform: rotateX(-80deg); opacity: 0; }
+      to   { transform: none; opacity: 1; }
+    }
+
     /* =========================================================
        Display banners
        ========================================================= */
@@ -382,14 +429,20 @@
       line-height: 0.74;
       letter-spacing: var(--tracking-display);
       text-transform: uppercase;
+      perspective: 1400px;
     }
     .fit {
       display: inline-block;
       white-space: nowrap;
-      font-size: 24vw; /* fallback; script fits the word to the column */
+      font-size: 24vw; /* fallback; the script fits the word to the column */
       padding-bottom: 0.06em;
+      transform-style: preserve-3d;
+      transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+      transition: transform 0.6s var(--ease-out);
     }
     .fit--descender { padding-bottom: 0.24em; } /* room for the J tail */
+    .banner .split { --stagger: 70ms; --flip-duration: 1.1s; }
+    .banner .split .char { transform-origin: 50% 85%; }
     .banner__meta {
       display: flex;
       align-items: center;
@@ -451,7 +504,7 @@
       object-fit: cover;
       filter: grayscale(1) contrast(1.08);
       mix-blend-mode: multiply;
-      transition: filter 0.5s ease;
+      transition: filter 0.5s ease, transform 0.45s var(--ease-out);
     }
     .portrait:hover img { filter: grayscale(0) contrast(1); }
     .portrait figcaption {
@@ -508,7 +561,7 @@
       align-content: start;
     }
 
-    /* Stamp seal: the page's one ornamental moment */
+    /* Stamp seal */
     .stamp-wrap {
       width: min(100%, 250px);
       justify-self: center;
@@ -734,7 +787,6 @@
       font-size: clamp(1.5rem, 2.4vw, 2rem);
       line-height: 1;
       letter-spacing: -0.03em;
-      font-variant-numeric: lining-nums;
     }
     .pull__note {
       grid-column: 1 / -1;
@@ -751,21 +803,19 @@
       display: grid;
       place-content: center;
       gap: 0.12em;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 4 / 5;
       padding: var(--spacing-22);
       background: var(--color-ink-black);
       color: var(--color-parchment);
       font-family: var(--font-canopee);
       font-weight: 900;
-      font-size: clamp(2.5rem, 4.6vw, 4.25rem);
+      font-size: clamp(3rem, 6vw, 6rem);
       line-height: 0.82;
       letter-spacing: -0.045em;
       text-align: center;
       text-transform: uppercase;
     }
     .plate__art i { font-weight: 400; }
-    .plate__art sup { font-size: 0.45em; line-height: 0; vertical-align: 0.95em; }
-    .plate__art--tall { aspect-ratio: 4 / 5; font-size: clamp(3rem, 6vw, 6rem); }
     .plate__caption { display: grid; gap: 2px; }
     .plate__title {
       font-family: var(--font-domaine-display);
@@ -816,29 +866,60 @@
     /* ---------- Projects ---------- */
     .projects__head {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
       gap: var(--spacing-43);
-      align-items: center;
-      margin-bottom: var(--spacing-58);
+      align-items: end;
+      margin-bottom: var(--spacing-43);
     }
     .projects__intro {
       display: grid;
-      justify-items: center;
       gap: var(--spacing-22);
-      text-align: center;
+      align-content: end;
     }
     .projects__sub {
-      max-width: 34ch;
+      max-width: 40ch;
       font-size: var(--text-lede);
       line-height: 1.35;
     }
+    .projects__how { max-width: 46ch; }
+
+    /* LED cube */
+    .cube { display: grid; gap: var(--spacing-10); }
+    .cube__stage {
+      position: relative;
+      aspect-ratio: 1;
+      background: var(--color-ink-black);
+      overflow: hidden;
+    }
+    .cube__stage canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+      touch-action: pan-y;
+    }
+    .cube__stage canvas.is-dragging { cursor: grabbing; }
+    .cube__hud {
+      position: absolute;
+      inset: var(--spacing-14) var(--spacing-17) auto;
+      display: flex;
+      justify-content: space-between;
+      gap: var(--spacing-10);
+      color: var(--color-parchment);
+      font-size: 0.8125rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .cube__hud span:last-child { color: var(--color-bone-cream); }
 
     .filters {
       display: flex;
       flex-wrap: wrap;
       gap: var(--spacing-10);
       padding-bottom: var(--spacing-22);
-      margin-bottom: var(--spacing-28);
       border-bottom: var(--rule);
     }
     .filter {
@@ -865,57 +946,186 @@
       font-variant-numeric: tabular-nums;
     }
 
-    .project-grid {
+    /* Project index: one big row per project */
+    .entry { border-bottom: var(--rule); }
+    .entry[hidden] { display: none; }
+    .entry__heading { font: inherit; }
+    .entry__row {
+      position: relative;
+      isolation: isolate;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
-      gap: var(--spacing-22);
+      grid-template-columns: 4rem minmax(0, 1fr) minmax(7rem, auto) 1.75rem;
+      align-items: center;
+      gap: var(--spacing-17);
+      width: 100%;
+      padding: var(--spacing-17) var(--spacing-12);
+      background: none;
+      border: 0;
+      text-align: left;
+      color: inherit;
+      perspective: 900px;
+      transition: color 0.3s ease;
     }
-    .card {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-10);
-      min-height: 176px;
-      padding: var(--card-padding);
-      background: var(--color-bone-cream);
-      border-radius: var(--radius-cards);
-      box-shadow: var(--shadow-sm);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    button.entry__row { cursor: pointer; }
+    /* The ink flap that drops down behind a row on hover */
+    .entry__row::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--color-ink-black);
+      transform-origin: 50% 0;
+      transform: rotateX(-92deg);
+      backface-visibility: hidden;
+      opacity: 0; /* hides the edge-on sliver while folded away */
+      transition: transform 0.45s var(--ease-out), opacity 0.15s linear;
     }
-    .card[hidden] { display: none; }
-    .card:hover {
-      transform: translate(3px, -3px);
-      box-shadow: rgba(29, 29, 27, 0.24) -8px 8px 10px 0px;
+    .entry__no {
+      font-size: var(--text-caption);
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
     }
-    .card__meta {
-      display: flex;
-      justify-content: space-between;
-      gap: var(--spacing-10);
-      font-size: 0.8125rem;
-      letter-spacing: 0.05em;
+    .entry__title {
+      font-family: var(--font-canopee);
+      font-weight: 900;
+      font-size: clamp(1.75rem, 4.4vw, 4.25rem);
+      line-height: 0.92;
+      letter-spacing: -0.04em;
       text-transform: uppercase;
-      color: var(--color-charcoal-deep);
-    }
-    .card__no { font-variant-numeric: tabular-nums; }
-    .card__title {
-      margin-top: auto;
-      padding-top: var(--spacing-22);
-      font-weight: 300;
-      font-size: var(--text-subheading);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
       text-wrap: balance;
     }
-    .card__title a {
-      text-decoration: underline;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 3px;
+    .entry__title .char { transform-origin: 50% 55%; }
+    .entry__cat {
+      font-size: var(--text-caption);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-align: right;
+      color: var(--color-charcoal-deep);
+      transition: color 0.3s ease;
     }
-    .card__title a:hover { color: var(--color-pure-black); text-decoration-thickness: 2px; }
-    .card__note {
+    .entry__icon {
+      position: relative;
+      justify-self: end;
+      width: 18px;
+      height: 18px;
+      transition: transform 0.35s var(--ease-out);
+    }
+    .entry__icon::before,
+    .entry__icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1.5px;
+      background: currentColor;
+    }
+    .entry__icon::after { transform: rotate(90deg); }
+    .entry__row[aria-expanded="true"] .entry__icon { transform: rotate(45deg); }
+
+    @media (hover: hover) {
+      .entry__row:hover::before,
+      .entry__row:focus-visible::before { transform: rotateX(0deg); opacity: 1; }
+      .entry__row:hover,
+      .entry__row:focus-visible { color: var(--color-parchment); }
+      .entry__row:hover .entry__cat,
+      .entry__row:focus-visible .entry__cat { color: var(--color-bone-cream); }
+    }
+    @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+      .entry__row:hover .entry__title .char {
+        animation: char-flip 0.7s var(--ease-out) calc(var(--i) * 18ms);
+      }
+    }
+    @keyframes char-flip {
+      from { transform: rotateX(0deg); }
+      to   { transform: rotateX(360deg); }
+    }
+
+    .entry__body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--spacing-17);
+      padding: var(--spacing-10) var(--spacing-12) var(--spacing-28) calc(4rem + var(--spacing-17) + var(--spacing-12));
+      transform-origin: 50% 0;
+    }
+    .entry__body[hidden] { display: none; }
+    .entry__body.has-image { grid-template-columns: minmax(0, 280px) minmax(0, 1fr); align-items: start; }
+    .entry__body img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+    .entry__text { display: grid; gap: var(--spacing-14); align-content: start; }
+    .entry__note { max-width: 60ch; font-size: var(--text-lede); line-height: 1.4; }
+    @media (prefers-reduced-motion: no-preference) {
+      .entry__body:not([hidden]) { animation: unfold 0.5s var(--ease-out); }
+    }
+    @keyframes unfold {
+      from { transform: perspective(900px) rotateX(-40deg); opacity: 0; }
+      to   { transform: none; opacity: 1; }
+    }
+
+    /* Floating preview that follows the pointer over the index */
+    .preview {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 30;
+      width: 220px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate3d(-999px, -999px, 0);
+      transition: opacity 0.2s ease;
+    }
+    .preview.is-visible { opacity: 1; }
+    .preview__card {
+      background: var(--color-parchment);
+      box-shadow: var(--shadow-sm-2);
+      border: var(--rule);
+      transform: perspective(700px) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg));
+      transition: transform 0.15s linear;
+    }
+    .preview__plate {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: var(--spacing-10);
+      aspect-ratio: 4 / 5;
+      padding: var(--spacing-14);
+    }
+    .preview__plate img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 0;
+    }
+    .preview__cat {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .preview__cat .icon-star { width: 12px; height: 12px; }
+    .preview__no {
+      align-self: center;
+      font-family: var(--font-canopee);
+      font-weight: 900;
+      font-size: 7.5rem;
+      line-height: 0.8;
+      letter-spacing: -0.06em;
+    }
+    .preview__title {
       padding-top: var(--spacing-10);
-      border-top: 1px solid var(--color-charcoal);
-      font-size: var(--text-body-sm);
-      line-height: 1.3;
+      border-top: var(--rule);
+      font-family: var(--font-domaine-display);
+      font-weight: 500;
+      font-size: 1.25rem;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    @media (hover: none), (pointer: coarse) {
+      .preview { display: none; }
     }
 
     /* ---------- Skills ---------- */
@@ -930,6 +1140,7 @@
       text-transform: uppercase;
     }
     .skill-list li { display: inline; }
+    .skill-list .char { text-align: center; }
     .skill-list .icon-star {
       display: inline-block;
       width: 0.42em;
@@ -1039,9 +1250,8 @@
       .highlights li { padding-top: var(--spacing-14); border-bottom: 0; border-top: var(--rule); }
       .highlights li:first-child { padding-top: var(--spacing-14); }
 
-      .projects__head { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .projects__intro { grid-column: 1 / -1; order: -1; }
-      .plate__art--tall { aspect-ratio: 4 / 3; }
+      .projects__head { grid-template-columns: minmax(0, 1fr); }
+      .cube { max-width: 640px; }
     }
 
     @media (max-width: 760px) {
@@ -1070,13 +1280,20 @@
       .pull { grid-template-columns: minmax(0, 1fr); }
       .highlights { grid-template-columns: minmax(0, 1fr); gap: 0; }
 
-      .projects__head { grid-template-columns: minmax(0, 1fr); }
-      .projects__intro { justify-items: start; text-align: left; }
-      .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-14); }
-      .card { --card-padding: 16px; min-height: 150px; }
-      .card__meta { flex-direction: column; gap: 2px; font-size: 0.75rem; }
-      .card__title { font-size: 1.125rem; padding-top: var(--spacing-14); }
-      .card__note { font-size: 0.875rem; }
+      .entry__row {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas:
+          "no cat icon"
+          "title title title";
+        row-gap: var(--spacing-7);
+        padding-inline: var(--spacing-4);
+      }
+      .entry__no { grid-area: no; }
+      .entry__cat { grid-area: cat; text-align: left; }
+      .entry__icon { grid-area: icon; }
+      .entry__title { grid-area: title; }
+      .entry__body { padding-left: var(--spacing-4); padding-right: var(--spacing-4); }
+      .entry__body.has-image { grid-template-columns: minmax(0, 1fr); }
 
       .contact__grid { grid-template-columns: minmax(0, 1fr); }
     }
@@ -1145,7 +1362,7 @@
       <div class="wrap">
         <h1 class="banner__word" id="site-title">
           <span class="visually-hidden">Sharaj Shreyas</span>
-          <span class="fit fit--descender" aria-hidden="true">Sharaj</span>
+          <span class="fit fit--descender" aria-hidden="true" data-reveal>Sharaj</span>
         </h1>
         <div class="banner__meta">
           <p>Civil Engineering student, IIT Gandhinagar</p>
@@ -1159,13 +1376,13 @@
     <section class="section" id="about" aria-labelledby="about-title">
       <div class="wrap about__grid">
         <figure class="portrait">
-          <img src="assets/sharaj-shreyas.jpg" width="359" height="478" alt="Sharaj Shreyas in a dark blazer and white shirt, standing outdoors beside a brick wall">
+          <img src="assets/sharaj-shreyas.jpg" width="359" height="478" alt="Sharaj Shreyas in a dark blazer and white shirt, standing outdoors beside a brick wall" data-tilt="10">
           <figcaption class="caption">Sharaj Shreyas, Civil Engineering, IIT Gandhinagar.</figcaption>
         </figure>
 
         <div class="about__story">
           <p class="eyebrow"><span>01</span>About</p>
-          <h2 class="headline headline--xl" id="about-title">Robotics, design &amp; building things!</h2>
+          <h2 class="headline headline--xl" id="about-title" data-reveal>Robotics, design &amp; building things!</h2>
           <p class="lede dropcap">I’m Sharaj Shreyas, a Civil Engineering student at IIT Gandhinagar, passionate about robotics, technology, design, and building things. I enjoy building projects while constantly learning, experimenting, and creating.</p>
           <dl class="facts">
             <div><dt>Now</dt><dd>Member, Mean Mechanics</dd></div>
@@ -1180,7 +1397,7 @@
 
         <aside class="about__side" aria-labelledby="education-title">
           <div class="stamp-wrap" aria-hidden="true">
-            <div class="stamp">
+            <div class="stamp" data-tilt="18">
               <div class="stamp__inner">
                 <div class="stamp__sun">
                   <span class="stamp__rays"></span>
@@ -1232,7 +1449,7 @@
         <header class="section__head">
           <p class="eyebrow"><span>02</span>Experience</p>
           <div class="section__head-row">
-            <h2 class="headline headline--lg" id="experience-title">Labs, teams &amp; techfests</h2>
+            <h2 class="headline headline--lg" id="experience-title" data-reveal>Labs, teams &amp; techfests</h2>
             <p class="section__note">From ATL Lab in 2018 to an underwater submersible today.</p>
           </div>
         </header>
@@ -1240,7 +1457,7 @@
         <div class="exp-grid">
           <article class="story" aria-labelledby="exp-cfal">
             <div class="story__top">
-              <h3 class="story__org" id="exp-cfal">Makerspace CFAL</h3>
+              <h3 class="story__org" id="exp-cfal" data-reveal>Makerspace CFAL</h3>
               <p class="story__dates">Jun 2024 – Jul 2026</p>
             </div>
             <ul class="roles">
@@ -1262,7 +1479,7 @@
 
           <article class="story story--side" aria-labelledby="exp-mm">
             <div class="story__top">
-              <h3 class="story__org" id="exp-mm">Mean Mechanics</h3>
+              <h3 class="story__org" id="exp-mm" data-reveal>Mean Mechanics</h3>
               <span class="badge">New</span>
             </div>
             <ul class="roles">
@@ -1270,7 +1487,7 @@
             </ul>
             <p>A new team member, currently working on the Underwater Submersible project.</p>
             <figure class="plate">
-              <div class="plate__art plate__art--tall" aria-hidden="true"><span>Under</span><span><i>water</i></span></div>
+              <div class="plate__art" aria-hidden="true"><span>Under</span><span><i>water</i></span></div>
               <figcaption class="plate__caption">
                 <span class="plate__title">Underwater Submersible</span>
                 <span class="caption">Current project, with Mean Mechanics</span>
@@ -1280,7 +1497,7 @@
 
           <article class="story story--long" aria-labelledby="exp-atl">
             <div class="story__top">
-              <h3 class="story__org" id="exp-atl">ATL Lab</h3>
+              <h3 class="story__org" id="exp-atl" data-reveal>ATL Lab</h3>
               <p class="story__dates">2018 – 2024</p>
             </div>
             <div class="longform">
@@ -1302,25 +1519,21 @@
     <section class="section" id="projects" aria-labelledby="projects-title">
       <div class="wrap">
         <div class="projects__head">
-          <figure class="plate">
-            <div class="plate__art plate__art--tall" aria-hidden="true"><span>3<i>kg</i></span><span>1<i>kg</i></span></div>
-            <figcaption class="plate__caption">
-              <span class="plate__title">Soccer bots</span>
-              <span class="caption">Built in two weight classes</span>
-            </figcaption>
-          </figure>
-
           <div class="projects__intro">
             <p class="eyebrow"><span>03</span>Projects</p>
-            <h2 class="headline headline--xl" id="projects-title">All builds!</h2>
+            <h2 class="headline headline--lg" id="projects-title" data-reveal>All builds!</h2>
             <p class="projects__sub" id="projects-summary">Builds in robotics, electronics, flight &amp; RC, games, science and agriculture.</p>
+            <p class="caption projects__how">Open a row for details. On a computer, hovering a row shows its plate.</p>
           </div>
 
-          <figure class="plate">
-            <div class="plate__art plate__art--tall" aria-hidden="true"><span>10<sup>3</sup></span></div>
+          <figure class="cube">
+            <div class="cube__stage">
+              <canvas id="led-cube" tabindex="0" role="img" aria-label="Animated 3D model of a 10 by 10 by 10 LED cube. Drag, or use the arrow keys, to turn it."></canvas>
+              <p class="cube__hud" aria-hidden="true"><span id="cube-pattern">Wave</span><span>Drag to turn</span></p>
+            </div>
             <figcaption class="plate__caption">
               <span class="plate__title">10×10×10 LED cube</span>
-              <span class="caption">A thousand LEDs, ten to a side</span>
+              <span class="caption">One of Sharaj’s builds, rebuilt in code: 1,000 LEDs running light patterns.</span>
             </figcaption>
           </figure>
         </div>
@@ -1328,9 +1541,9 @@
         <div class="filters" id="project-filters" role="group" aria-label="Filter projects by category"></div>
         <p class="visually-hidden" id="filter-status" aria-live="polite"></p>
 
-        <!-- Cards are built from projects.js -->
-        <ol class="project-grid" id="project-grid">
-          <noscript><li class="card"><p class="card__title">Turn on JavaScript to see the full project list.</p></li></noscript>
+        <!-- Rows are built from projects.js -->
+        <ol class="project-index" id="project-index">
+          <noscript><li class="entry"><p class="entry__row">Turn on JavaScript to see the full project list.</p></li></noscript>
         </ol>
       </div>
     </section>
@@ -1340,11 +1553,11 @@
       <div class="wrap skills__inner">
         <h2 class="eyebrow" id="skills-title"><span>04</span>Skills</h2>
         <ul class="skill-list">
-          <li>Hardware <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
-          <li>CAD <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
-          <li>Team leadership &amp; management <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
-          <li>Prototyping <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
-          <li>Product refinement</li>
+          <li data-reveal="flap">Hardware <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
+          <li data-reveal="flap">CAD <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
+          <li data-reveal="flap">Team leadership &amp; management <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
+          <li data-reveal="flap">Prototyping <svg class="icon-star" aria-hidden="true" focusable="false"><use href="#star"/></svg></li>
+          <li data-reveal="flap">Product refinement</li>
         </ul>
         <p class="skills__note">Put to work on robots, RC aircraft, digital electronics and Arduino builds, and on running a makerspace of hardware, software and design teams.</p>
       </div>
@@ -1353,7 +1566,7 @@
     <!-- Closing banner -->
     <div class="banner" aria-hidden="true">
       <div class="wrap">
-        <p class="banner__word"><span class="fit">Shreyas</span></p>
+        <p class="banner__word"><span class="fit" data-reveal>Shreyas</span></p>
       </div>
     </div>
 
@@ -1362,7 +1575,7 @@
       <div class="wrap contact__grid">
         <div class="contact__intro">
           <p class="eyebrow"><span>05</span>Contact</p>
-          <h2 class="headline headline--lg" id="contact-title">Get in touch.</h2>
+          <h2 class="headline headline--lg" id="contact-title" data-reveal>Get in touch.</h2>
           <p class="contact__lede">Email or call about robotics, design, or something you want built.</p>
         </div>
         <ul class="contact__list">
@@ -1391,9 +1604,66 @@
     <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
   </footer>
 
+  <!-- Hover preview for the project index -->
+  <div class="preview" id="preview" aria-hidden="true">
+    <div class="preview__card">
+      <div class="preview__plate">
+        <p class="preview__cat"><svg class="icon-star" focusable="false"><use href="#star"/></svg><span></span></p>
+        <p class="preview__no"></p>
+        <p class="preview__title"></p>
+      </div>
+    </div>
+  </div>
+
   <script src="projects.js"></script>
   <script>
     (() => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      const el = (tag, className, text) => {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
+      };
+
+      /* ---------- Split text into letters for the 3D effects ---------- */
+      // Visible letters are aria-hidden; screen readers get one clean copy.
+      const splitText = (target, { label = true } = {}) => {
+        const plain = target.textContent.replace(/\s+/g, ' ').trim();
+        const letters = el('span');
+        letters.setAttribute('aria-hidden', 'true');
+        let index = 0;
+
+        target.childNodes.forEach((child) => {
+          if (child.nodeType !== Node.TEXT_NODE) {
+            letters.append(child.cloneNode(true));
+            return;
+          }
+          child.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { letters.append(' '); return; }
+            const word = el('span', 'word');
+            for (const ch of part) {
+              const char = el('span', 'char', ch);
+              char.dataset.ch = ch;
+              char.style.setProperty('--i', index++);
+              word.append(char);
+            }
+            letters.append(word);
+          });
+        });
+
+        target.replaceChildren();
+        if (label) {
+          target.append(el('span', 'visually-hidden', plain), letters);
+        } else {
+          target.append(...letters.childNodes);
+        }
+        target.classList.add('split');
+      };
+
       /* ---------- Menu overlay ---------- */
       const menuButton = document.getElementById('menu-button');
       const menu = document.getElementById('menu');
@@ -1435,6 +1705,209 @@
         }
       });
 
+      /* ---------- Projects: built from projects.js ---------- */
+      const projects = Array.isArray(window.PROJECTS) ? window.PROJECTS : [];
+      const list = document.getElementById('project-index');
+      const filterBar = document.getElementById('project-filters');
+      const status = document.getElementById('filter-status');
+      const summary = document.getElementById('projects-summary');
+
+      const slugify = (text) => String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      // "Flight & RC" reads as "flight & RC" mid-sentence; acronyms keep their capitals
+      const inSentence = (name) => name.split(' ').map((w) => (w === w.toUpperCase() ? w : w.toLowerCase())).join(' ');
+      const listWords = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`);
+      const categories = [...new Set(projects.map((p) => p.category))];
+
+      const entries = projects.map((project, i) => {
+        const number = String(i + 1).padStart(2, '0');
+        const hasDetails = Boolean(project.note || project.image || project.link);
+        const entry = el('li', 'entry');
+        entry.dataset.cat = slugify(project.category);
+        entry.dataset.index = i;
+
+        const heading = el('h3', 'entry__heading');
+        const row = el(hasDetails ? 'button' : 'div', 'entry__row');
+        const title = el('span', 'entry__title', project.title);
+        const meta = project.year ? `${project.category} · ${project.year}` : project.category;
+        row.append(el('span', 'entry__no', number), title, el('span', 'entry__cat', meta), el('span', 'entry__icon'));
+        heading.append(row);
+        entry.append(heading);
+        splitText(title);
+
+        if (hasDetails) {
+          const bodyId = `project-${number}`;
+          row.type = 'button';
+          row.setAttribute('aria-expanded', 'false');
+          row.setAttribute('aria-controls', bodyId);
+
+          const body = el('div', 'entry__body');
+          body.id = bodyId;
+          body.hidden = true;
+          if (project.image) {
+            body.classList.add('has-image');
+            const img = el('img');
+            img.src = project.image;
+            img.alt = project.title;
+            img.loading = 'lazy';
+            body.append(img);
+          }
+          const text = el('div', 'entry__text');
+          if (project.note) text.append(el('p', 'entry__note', project.note));
+          if (project.link) {
+            const link = el('a', 'text-link', 'View project ↗');
+            link.href = project.link;
+            link.rel = 'noopener';
+            text.append(link);
+          }
+          body.append(text);
+          entry.append(body);
+
+          row.addEventListener('click', () => {
+            const open = row.getAttribute('aria-expanded') === 'true';
+            row.setAttribute('aria-expanded', String(!open));
+            body.hidden = open;
+          });
+        } else {
+          row.querySelector('.entry__icon').hidden = true;
+        }
+        return entry;
+      });
+      if (entries.length) list.replaceChildren(...entries);
+
+      if (summary && projects.length) {
+        summary.textContent = `${projects.length} builds in ${listWords(categories.map(inSentence))}.`;
+      }
+
+      // Filters
+      const matches = (entry, filter) => filter === 'all' || entry.dataset.cat === filter;
+      const filterOptions = [['all', 'All'], ...categories.map((c) => [slugify(c), c])];
+      const filterButtons = filterOptions.map(([value, label]) => {
+        const count = entries.filter((entry) => matches(entry, value)).length;
+        const button = el('button', 'filter', `${label} `);
+        button.type = 'button';
+        button.setAttribute('aria-pressed', String(value === 'all'));
+        button.append(el('span', 'filter__count', String(count)));
+        button.addEventListener('click', () => {
+          filterButtons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+          entries.forEach((entry) => { entry.hidden = !matches(entry, value); });
+          status.textContent = `Showing ${count} project${count === 1 ? '' : 's'}`;
+        });
+        return button;
+      });
+      if (entries.length) filterBar.replaceChildren(...filterButtons);
+
+      /* ---------- Hover preview that follows the pointer ---------- */
+      const preview = document.getElementById('preview');
+      if (preview && finePointer && entries.length) {
+        const card = preview.querySelector('.preview__card');
+        const plate = preview.querySelector('.preview__plate');
+        const previewCat = preview.querySelector('.preview__cat span');
+        const previewNo = preview.querySelector('.preview__no');
+        const previewTitle = preview.querySelector('.preview__title');
+        const width = 220;
+        let x = 0, y = 0, targetX = 0, targetY = 0, frame = null, visible = false, current = -1;
+
+        const place = (event) => {
+          const flip = event.clientX + width + 40 > window.innerWidth;
+          targetX = flip ? event.clientX - width - 28 : event.clientX + 28;
+          targetY = clamp(event.clientY - 150, 70, window.innerHeight - 300);
+        };
+        const loop = () => {
+          x += (targetX - x) * 0.2;
+          y += (targetY - y) * 0.2;
+          const vx = targetX - x;
+          const vy = targetY - y;
+          preview.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${clamp(vx * 0.05, -6, 6).toFixed(2)}deg)`;
+          if (!reduceMotion) {
+            card.style.setProperty('--ry', `${clamp(vx * 0.35, -28, 28).toFixed(1)}deg`);
+            card.style.setProperty('--rx', `${clamp(-vy * 0.25, -18, 18).toFixed(1)}deg`);
+          }
+          frame = visible || Math.abs(vx) > 0.5 || Math.abs(vy) > 0.5 ? requestAnimationFrame(loop) : null;
+        };
+        const fill = (index) => {
+          const project = projects[index];
+          previewCat.textContent = project.year ? `${project.category} · ${project.year}` : project.category;
+          previewTitle.textContent = project.title;
+          plate.querySelector('img')?.remove();
+          if (project.image) {
+            const img = el('img');
+            img.src = project.image;
+            img.alt = '';
+            previewNo.hidden = true;
+            plate.insertBefore(img, previewTitle);
+          } else {
+            previewNo.hidden = false;
+            previewNo.textContent = String(index + 1).padStart(2, '0');
+          }
+        };
+
+        list.addEventListener('pointermove', (event) => {
+          const entry = event.target.closest('.entry');
+          if (!entry || event.target.closest('.entry__body')) {
+            visible = false;
+            preview.classList.remove('is-visible');
+            return;
+          }
+          place(event);
+          const index = Number(entry.dataset.index);
+          if (index !== current) { current = index; fill(index); }
+          if (!visible) {
+            if (!preview.classList.contains('is-visible')) { x = targetX; y = targetY; }
+            visible = true;
+            preview.classList.add('is-visible');
+          }
+          if (!frame) frame = requestAnimationFrame(loop);
+        });
+        list.addEventListener('pointerleave', () => {
+          visible = false;
+          preview.classList.remove('is-visible');
+        });
+      }
+
+      /* ---------- Reveal: letters flip up when scrolled into view ---------- */
+      const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ&0123456789';
+      const splitFlap = (root) => {
+        root.querySelectorAll('.char').forEach((char, n) => {
+          const final = char.dataset.ch;
+          char.style.width = `${char.offsetWidth}px`; // lock width so lines don't reflow
+          let flips = 4 + Math.floor(Math.random() * 5);
+          const tick = () => {
+            if (flips-- <= 0) {
+              char.textContent = final;
+              char.style.width = '';
+              return;
+            }
+            char.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+            char.animate(
+              [{ transform: 'rotateX(0deg)' }, { transform: 'rotateX(-90deg)', offset: 0.5 }, { transform: 'rotateX(0deg)' }],
+              { duration: 70 }
+            );
+            setTimeout(tick, 70);
+          };
+          setTimeout(tick, 80 + n * 22);
+        });
+      };
+
+      const revealTargets = [...document.querySelectorAll('[data-reveal]')];
+      revealTargets.forEach((target) => splitText(target, { label: !target.closest('[aria-hidden="true"]') }));
+
+      if (!reduceMotion && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((items) => {
+          items.forEach((item) => {
+            if (!item.isIntersecting) return;
+            const target = item.target;
+            target.classList.remove('is-pending');
+            target.classList.add('is-in');
+            if (target.dataset.reveal === 'flap') splitFlap(target);
+            observer.unobserve(target);
+          });
+        }, { threshold: 0.15 });
+        revealTargets.forEach((target) => {
+          target.classList.add('is-pending');
+          observer.observe(target);
+        });
+      }
+
       /* ---------- Fit banner words to the column width ---------- */
       const fitWords = [...document.querySelectorAll('.fit')];
       const fitAll = () => {
@@ -1443,86 +1916,255 @@
           const box = word.parentElement;
           const styles = getComputedStyle(box);
           const available = box.clientWidth - parseFloat(styles.paddingLeft) - parseFloat(styles.paddingRight);
-          const natural = word.getBoundingClientRect().width;
+          const natural = word.offsetWidth; // layout width, ignores the 3D tilt
           const size = parseFloat(getComputedStyle(word).fontSize);
           if (natural > 0) word.style.fontSize = `${(size * available / natural).toFixed(2)}px`;
         });
       };
-      let frame;
-      const scheduleFit = () => {
-        cancelAnimationFrame(frame);
-        frame = requestAnimationFrame(fitAll);
-      };
+      let fitFrame;
       fitAll();
       if (document.fonts) document.fonts.ready.then(fitAll);
-      window.addEventListener('resize', scheduleFit);
-
-      /* ---------- Projects: built from projects.js ---------- */
-      const projects = Array.isArray(window.PROJECTS) ? window.PROJECTS : [];
-      const grid = document.getElementById('project-grid');
-      const filterBar = document.getElementById('project-filters');
-      const status = document.getElementById('filter-status');
-      const summary = document.getElementById('projects-summary');
-
-      const slugify = (text) => String(text).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      const el = (tag, className, text) => {
-        const node = document.createElement(tag);
-        if (className) node.className = className;
-        if (text !== undefined) node.textContent = text;
-        return node;
-      };
-      // "Flight & RC" reads as "flight & RC" mid-sentence; acronyms keep their capitals
-      const inSentence = (name) => name.split(' ').map((w) => (w === w.toUpperCase() ? w : w.toLowerCase())).join(' ');
-      const listWords = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`);
-
-      const categories = [...new Set(projects.map((p) => p.category))];
-
-      // Cards
-      const cards = projects.map((project, i) => {
-        const card = el('li', 'card');
-        card.dataset.cat = slugify(project.category);
-
-        const meta = el('p', 'card__meta');
-        meta.append(el('span', '', project.category), el('span', 'card__no', `No. ${String(i + 1).padStart(2, '0')}`));
-
-        const title = el('h3', 'card__title');
-        if (project.link) {
-          const a = el('a', '', project.title);
-          a.href = project.link;
-          a.rel = 'noopener';
-          title.append(a);
-        } else {
-          title.textContent = project.title;
-        }
-
-        card.append(meta, title);
-        if (project.note) card.append(el('p', 'card__note', project.note));
-        return card;
+      window.addEventListener('resize', () => {
+        cancelAnimationFrame(fitFrame);
+        fitFrame = requestAnimationFrame(fitAll);
       });
-      if (cards.length) grid.replaceChildren(...cards);
 
-      if (summary && projects.length) {
-        summary.textContent = `${projects.length} builds in ${listWords(categories.map(inSentence))}.`;
+      /* ---------- Pointer tilt: banners, portrait, stamp ---------- */
+      if (finePointer && !reduceMotion) {
+        const tilt = (surface, target, maxX, maxY) => {
+          surface.addEventListener('pointermove', (event) => {
+            const box = surface.getBoundingClientRect();
+            const px = (event.clientX - box.left) / box.width - 0.5;
+            const py = (event.clientY - box.top) / box.height - 0.5;
+            target.style.setProperty('--tilt-x', `${(-py * maxX).toFixed(2)}deg`);
+            target.style.setProperty('--tilt-y', `${(px * maxY).toFixed(2)}deg`);
+          });
+          surface.addEventListener('pointerleave', () => {
+            target.style.setProperty('--tilt-x', '0deg');
+            target.style.setProperty('--tilt-y', '0deg');
+          });
+        };
+        document.querySelectorAll('.banner').forEach((banner) => tilt(banner, banner.querySelector('.fit'), 22, 18));
+        document.querySelectorAll('[data-tilt]').forEach((item) => {
+          const max = parseFloat(item.dataset.tilt) || 10;
+          tilt(item, item, max, max);
+        });
       }
 
-      // Filters
-      const matches = (card, filter) => filter === 'all' || card.dataset.cat === filter;
-      const filterOptions = [['all', 'All'], ...categories.map((c) => [slugify(c), c])];
-      const filterButtons = filterOptions.map(([value, label]) => {
-        const count = cards.filter((card) => matches(card, value)).length;
-        const button = el('button', 'filter', `${label} `);
-        button.type = 'button';
-        button.dataset.filter = value;
-        button.setAttribute('aria-pressed', String(value === 'all'));
-        button.append(el('span', 'filter__count', String(count)));
-        button.addEventListener('click', () => {
-          filterButtons.forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
-          cards.forEach((card) => { card.hidden = !matches(card, value); });
-          status.textContent = `Showing ${count} project${count === 1 ? '' : 's'}`;
+      /* ---------- LED cube: 1,000 points projected on a 2D canvas ---------- */
+      const cubeCanvas = document.getElementById('led-cube');
+      if (cubeCanvas && cubeCanvas.getContext) {
+        const ctx = cubeCanvas.getContext('2d');
+        const patternLabel = document.getElementById('cube-pattern');
+        const N = 10;
+        const HALF = (N - 1) / 2;
+        const CAMERA = 24;
+
+        const leds = [];
+        for (let ix = 0; ix < N; ix++) {
+          for (let iy = 0; iy < N; iy++) {
+            for (let iz = 0; iz < N; iz++) {
+              leds.push({ ix, iy, iz, x: ix - HALF, y: iy - HALF, z: iz - HALF, b: 0, sx: 0, sy: 0, depth: 0, scale: 1 });
+            }
+          }
+        }
+        const order = leds.map((_, i) => i);
+        const corners = [];
+        [-5, 5].forEach((x) => [-5, 5].forEach((y) => [-5, 5].forEach((z) => corners.push({ x, y, z }))));
+        const edges = [[0, 1], [0, 2], [0, 4], [1, 3], [1, 5], [2, 3], [2, 6], [3, 7], [4, 5], [4, 6], [5, 7], [6, 7]];
+
+        // A 10 by 10 "S", top row first
+        const LETTER = [
+          '..######..',
+          '.##....##.',
+          '.##.......',
+          '..###.....',
+          '....###...',
+          '......###.',
+          '.......##.',
+          '.##....##.',
+          '..######..',
+          '..........',
+        ];
+        const hash = (a, b) => (((a * 73856093) ^ (b * 19349663)) >>> 0) % 1000 / 1000;
+        const band = (d, core, glow) => (d < core ? 1 : d < glow ? 0.35 * (1 - (d - core) / (glow - core)) : 0);
+
+        const patterns = [
+          { name: 'Wave', at: (l, t) => band(Math.abs(l.iy - (4.5 + 3.6 * Math.sin(l.ix * 0.55 + t * 2.2) * Math.cos(l.iz * 0.5 + t * 1.6))), 0.55, 1.6) },
+          { name: 'Ripple', at: (l, t) => band(Math.abs(Math.hypot(l.x, l.y, l.z) - ((t * 3.2) % 9)), 0.5, 1.5) },
+          {
+            name: 'Rain',
+            at: (l, t) => {
+              const h = hash(l.ix + 1, l.iz + 1);
+              const drop = 11 - ((t * (5 + h * 5) + h * 40) % 18);
+              const d = l.iy - drop;
+              return d >= -0.5 && d < 0.5 ? 1 : d >= 0.5 && d < 2.5 ? 0.3 : 0;
+            },
+          },
+          {
+            name: 'Letter S',
+            at: (l, t) => {
+              if (LETTER[N - 1 - l.iy][l.ix] !== '#') return 0;
+              const slice = 10.5 - ((t * 3.5) % 13);
+              return band(Math.abs(l.iz - slice), 0.5, 2.5);
+            },
+          },
+        ];
+
+        let width = 0, height = 0;
+        let angleY = -0.65, angleX = 0.38;
+        let running = false, inView = false, dragging = false;
+        let lastX = 0, lastY = 0, lastTime = 0;
+        let clock = 0, patternIndex = 0, patternStart = 0;
+
+        const project = (p) => {
+          const cy = Math.cos(angleY), sy = Math.sin(angleY);
+          const cx = Math.cos(angleX), sx = Math.sin(angleX);
+          const x1 = p.x * cy + p.z * sy;
+          const z1 = -p.x * sy + p.z * cy;
+          const y1 = p.y * cx - z1 * sx;
+          const z2 = p.y * sx + z1 * cx;
+          const scale = CAMERA / (CAMERA - z2);
+          const unit = Math.min(width, height) / 16.5;
+          p.sx = width / 2 + x1 * scale * unit;
+          p.sy = height / 2 - y1 * scale * unit;
+          p.depth = z2;
+          p.scale = scale;
+        };
+
+        const update = (t) => {
+          const pattern = patterns[patternIndex];
+          for (const led of leds) led.b = pattern.at(led, t);
+        };
+
+        const draw = () => {
+          if (!width) return;
+          ctx.clearRect(0, 0, width, height);
+          const radius = Math.min(width, height) / 150;
+
+          corners.forEach(project);
+          ctx.strokeStyle = 'rgba(226, 222, 219, 0.16)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          edges.forEach(([a, b]) => {
+            ctx.moveTo(corners[a].sx, corners[a].sy);
+            ctx.lineTo(corners[b].sx, corners[b].sy);
+          });
+          ctx.stroke();
+
+          leds.forEach(project);
+          order.sort((a, b) => leds[a].depth - leds[b].depth); // far to near
+
+          for (const i of order) {
+            const led = leds[i];
+            const r = radius * led.scale;
+            const nearness = (led.depth + 7) / 14; // 0 far, 1 near
+            if (led.b < 0.05) {
+              ctx.fillStyle = `rgba(105, 100, 95, ${(0.28 + nearness * 0.45).toFixed(2)})`;
+              ctx.fillRect(led.sx - r * 0.55, led.sy - r * 0.55, r * 1.1, r * 1.1);
+              continue;
+            }
+            ctx.fillStyle = `rgba(192, 63, 19, ${(0.22 * led.b).toFixed(2)})`;
+            ctx.beginPath();
+            ctx.arc(led.sx, led.sy, r * 3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = `rgba(192, 63, 19, ${(0.55 + 0.45 * led.b).toFixed(2)})`;
+            ctx.beginPath();
+            ctx.arc(led.sx, led.sy, r * 1.5, 0, Math.PI * 2);
+            ctx.fill();
+            if (led.b > 0.9) {
+              ctx.fillStyle = 'rgba(226, 222, 219, 0.9)';
+              ctx.beginPath();
+              ctx.arc(led.sx, led.sy, r * 0.65, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        };
+
+        const tick = (now) => {
+          if (!running) return;
+          const dt = lastTime ? Math.min(0.05, (now - lastTime) / 1000) : 0;
+          lastTime = now;
+          clock += dt;
+          if (!dragging) angleY += dt * 0.25;
+          if (clock - patternStart > 6.5) {
+            patternIndex = (patternIndex + 1) % patterns.length;
+            patternStart = clock;
+            patternLabel.textContent = patterns[patternIndex].name;
+          }
+          update(clock - patternStart);
+          draw();
+          requestAnimationFrame(tick);
+        };
+
+        const start = () => {
+          if (running || reduceMotion || !inView || document.hidden) return;
+          running = true;
+          lastTime = 0;
+          requestAnimationFrame(tick);
+        };
+        const stop = () => { running = false; };
+
+        const resize = () => {
+          const box = cubeCanvas.getBoundingClientRect();
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          width = box.width;
+          height = box.height;
+          cubeCanvas.width = Math.round(width * dpr);
+          cubeCanvas.height = Math.round(height * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          draw();
+        };
+
+        // Drag (mouse, pen, sideways swipe) and arrow keys turn the cube
+        cubeCanvas.addEventListener('pointerdown', (event) => {
+          dragging = true;
+          lastX = event.clientX;
+          lastY = event.clientY;
+          cubeCanvas.setPointerCapture(event.pointerId);
+          cubeCanvas.classList.add('is-dragging');
         });
-        return button;
-      });
-      if (cards.length) filterBar.replaceChildren(...filterButtons);
+        cubeCanvas.addEventListener('pointermove', (event) => {
+          if (!dragging) return;
+          angleY += (event.clientX - lastX) * 0.01;
+          angleX = clamp(angleX + (event.clientY - lastY) * 0.008, -1.2, 1.2);
+          lastX = event.clientX;
+          lastY = event.clientY;
+          if (!running) draw();
+        });
+        const endDrag = () => {
+          dragging = false;
+          cubeCanvas.classList.remove('is-dragging');
+        };
+        cubeCanvas.addEventListener('pointerup', endDrag);
+        cubeCanvas.addEventListener('pointercancel', endDrag);
+        cubeCanvas.addEventListener('keydown', (event) => {
+          const turns = { ArrowLeft: [-0.15, 0], ArrowRight: [0.15, 0], ArrowUp: [0, -0.12], ArrowDown: [0, 0.12] };
+          const turn = turns[event.key];
+          if (!turn) return;
+          event.preventDefault();
+          angleY += turn[0];
+          angleX = clamp(angleX + turn[1], -1.2, 1.2);
+          if (!running) draw();
+        });
+
+        if ('ResizeObserver' in window) new ResizeObserver(resize).observe(cubeCanvas);
+        else window.addEventListener('resize', resize);
+        resize();
+        update(1.2); // a resting frame: shown as-is when motion is reduced
+        draw();
+
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(([item]) => {
+            inView = item.isIntersecting;
+            if (inView) start(); else stop();
+          }).observe(cubeCanvas);
+        } else {
+          inView = true;
+          start();
+        }
+        document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+      }
 
       /* ---------- Copy contact details ---------- */
       document.querySelectorAll('[data-copy]').forEach((button) => {
@@ -1532,9 +2174,8 @@
             await navigator.clipboard.writeText(button.dataset.copy);
             button.textContent = 'Copied';
           } catch {
-            const value = button.previousElementSibling;
             const range = document.createRange();
-            range.selectNodeContents(value);
+            range.selectNodeContents(button.previousElementSibling);
             const selection = window.getSelection();
             selection.removeAllRanges();
             selection.addRange(range);
