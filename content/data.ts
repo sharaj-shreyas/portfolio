@@ -347,6 +347,17 @@ export const projects: Project[] = [
     title: "Chadermod",
     note: "A 3 lb battlebot for robowars. Design complete.. build coming soon!!",
   },
+    {
+    category: "flight",
+    categoryLabel: "Flight & RC",
+    title: "Flight simulator yoke setup",
+  },
+    {
+    category: "games",
+    categoryLabel: "Games",
+    title: "DuelMaze",
+    note: "A fun two-player physical maze game.",
+  },
   {
     category: "robotics",
     categoryLabel: "Robotics",
@@ -358,17 +369,6 @@ export const projects: Project[] = [
     categoryLabel: "Robotics",
     title: "Line follower bot",
     note: "Built in two weight classes, 3 kg and 5kg. Soccer bots were among the robotics projects run at Makerspace CFAL for events and demonstrations.",
-  },
-  {
-    category: "games",
-    categoryLabel: "Games",
-    title: "DuelMaze",
-    note: "A fun two-player physical maze game.",
-  },
-  {
-    category: "flight",
-    categoryLabel: "Flight & RC",
-    title: "Flight simulator yoke setup",
   },
   {
     category: "electronics",
