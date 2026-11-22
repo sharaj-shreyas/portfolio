@@ -72,8 +72,7 @@ export type ProjectCategory =
   | "electronics"
   | "flight"
   | "games"
-  | "science"
-  | "agriculture";
+  | "science";
 
 export type FilterId = "all" | ProjectCategory;
 
@@ -189,12 +188,12 @@ export const about = {
     src: "/assets/sharaj-shreyas.jpg",
     width: 359,
     height: 478,
-    alt: "Sharaj Shreyas in a dark blazer and white shirt, standing outdoors beside a brick wall",
-    caption: "Sharaj Shreyas, Civil Engineering, IIT Gandhinagar.",
+    alt: "Me in a dark blazer and white shirt, standing outdoors beside a brick wall",
+    caption: "Porträt meiner selbst, 2026",
   },
   facts: [
     { label: "Now", value: "Member, Mean Mechanics" },
-    { label: "Led", value: "Makerspace CFAL, as President and Vice President" },
+    { label: "Led", value: "Makerspace CFAL, as President" },
     { label: "Studying", value: "Civil Engineering, IIT Gandhinagar" },
   ] satisfies Fact[],
   links: [
@@ -219,7 +218,7 @@ export const about = {
     {
       when: "2024 – 2026",
       what: "Pre-University College",
-      where: "The Learning Centre PUC",
+      where: "The Learning Center PUC",
       score: "Score 96.67",
     },
     {
@@ -248,7 +247,7 @@ export const experience = {
   entries: [
     {
       id: "exp-cfal",
-      org: "Makerspace CFAL",
+      org: "Makerspace",
       dates: "Jun 2024 – Jul 2026",
       layout: "main",
       roles: [
@@ -264,7 +263,7 @@ export const experience = {
       pull: {
         name: "MakersFete",
         years: "2024 & 2025",
-        note: "The makerspace’s annual techfest, organized in both years alongside its workshops.",
+        note: "The makerspace’s annual techfest; volunteered and helped organize in both years.",
       },
     },
     {
@@ -272,7 +271,7 @@ export const experience = {
       org: "Mean Mechanics",
       badge: "New",
       layout: "side",
-      roles: [{ title: "Member", dates: "Aug 2026 – Present" }],
+      roles: [{ title: "Core Member", dates: "Aug 2026 – Present" }],
       intro:
         "A new team member, currently working on the Underwater Submersible project.",
       plate: {
@@ -317,21 +316,21 @@ export const experience = {
 export const projectsSection = {
   number: "03",
   label: "Projects",
-  title: "All builds!",
-  note: "Open a row for details. On a computer, hovering a row shows its plate.",
+  title: "Top builds!",
+  note: "Some of my top projects here",
   stage: {
     ariaLabel:
       "3D scene: Scout, Sharaj’s RC plane, flying above Chadermod, his 3 lb battlebot, with an RC car circling behind. Drag, or use the arrow keys, to turn the view.",
-    hud: ["Fig. 1", "Drag to turn · Not to scale"],
+    hud: ["Fig. 1", "Drag to turn"],
     labels: [
       { anchor: "scout", title: "Scout", caption: "RC plane" },
       { anchor: "chadermod", title: "Chadermod", caption: "3 lb battlebot" },
     ],
     title: "Scout and Chadermod",
     caption:
-      "An RC plane and a 3 lb battlebot, drawn live from Sharaj’s CAD files.",
+      "RC Scout plane, 3 lb battlebot Chadermod",
     loading: "Loading the 3D models",
-    fallback: "This 3D view needs a browser with WebGL 2.",
+    fallback: "This 3D view needs a browser with WebGL 2",
   },
 } as const;
 
@@ -339,72 +338,26 @@ export const projects: Project[] = [
   {
     category: "robotics",
     categoryLabel: "Robotics",
+    title: "Underwater Submersible",
+    note: "An underwater submersible robot for inspection of dams and reservoirs.",
+  },
+  {
+    category: "robotics",
+    categoryLabel: "Robotics",
     title: "Chadermod",
-    note: "A 3 lb battlebot. Shown in 3D at the top of this section, from its CAD.",
+    note: "A 3 lb battlebot for robowars. Design complete.. build coming soon!!",
   },
   {
     category: "robotics",
     categoryLabel: "Robotics",
     title: "Soccer bots",
-    note: "Built in two weight classes, 3 kg and 1 kg. Soccer bots were among the robotics projects run at Makerspace CFAL for events and demonstrations.",
+    note: "Built in two weight classes, 3 kg and 5kg. Soccer bots were among the robotics projects run at Makerspace CFAL for events and demonstrations.",
   },
   {
     category: "robotics",
     categoryLabel: "Robotics",
     title: "Line follower bot",
-  },
-  {
-    category: "robotics",
-    categoryLabel: "Robotics",
-    title: "Prosthetic arm",
-  },
-  {
-    category: "electronics",
-    categoryLabel: "Electronics",
-    title: "8-bit computer",
-  },
-  {
-    category: "electronics",
-    categoryLabel: "Electronics",
-    title: "10×10×10 LED cube",
-    note: "1,000 LEDs, ten to a side.",
-  },
-  {
-    category: "electronics",
-    categoryLabel: "Electronics",
-    title: "Headphone amps",
-    note: "Designed and built at Makerspace CFAL, then sold directly.",
-  },
-  {
-    category: "electronics",
-    categoryLabel: "Electronics",
-    title: "Cheap ECG machine",
-  },
-  {
-    category: "electronics",
-    categoryLabel: "Electronics",
-    title: "Useless machine",
-  },
-  {
-    category: "electronics",
-    categoryLabel: "Electronics",
-    title: "Arduino and microcontroller projects",
-  },
-  {
-    category: "flight",
-    categoryLabel: "Flight & RC",
-    title: "RC planes",
-    note: "Including Scout, shown in 3D at the top of this section, from its CAD.",
-  },
-  {
-    category: "flight",
-    categoryLabel: "Flight & RC",
-    title: "RC cars and boats",
-  },
-  {
-    category: "flight",
-    categoryLabel: "Flight & RC",
-    title: "Flight simulator yoke setup",
+    note: "Built in two weight classes, 3 kg and 5kg. Soccer bots were among the robotics projects run at Makerspace CFAL for events and demonstrations.",
   },
   {
     category: "games",
@@ -413,26 +366,33 @@ export const projects: Project[] = [
     note: "A fun two-player physical maze game.",
   },
   {
-    category: "games",
-    categoryLabel: "Games",
-    title: "Memory game",
+    category: "flight",
+    categoryLabel: "Flight & RC",
+    title: "Flight simulator yoke setup",
+  },
+  {
+    category: "electronics",
+    categoryLabel: "Electronics",
+    title: "Headphone amps",
+    note: "Designed and built by us, we sold over 25 units directly to customers.",
+  },
+  {
+    category: "electronics",
+    categoryLabel: "Electronics",
+    title: "10×10×10 LED cube",
+    note: "1,000 LEDs, ten to a side displaying patterns ",
+  },
+  {
+    category: "flight",
+    categoryLabel: "Flight & RC",
+    title: "RC model Planes",
+    note: "Including Scout and many others from scratch.",
   },
   {
     category: "science",
     categoryLabel: "Science",
-    title: "A new construction material",
+    title: "CarBrix",
     note: "A project on a new construction material made from organic compounds.",
-  },
-  {
-    category: "agriculture",
-    categoryLabel: "Agriculture",
-    title: "Biofloc fish farming",
-    note: "A project on Biofloc fish farming techniques.",
-  },
-  {
-    category: "agriculture",
-    categoryLabel: "Agriculture",
-    title: "Agriculture automation",
   },
 ];
 
@@ -444,13 +404,14 @@ export const skills = {
   number: "04",
   label: "Skills",
   items: [
-    "Hardware",
-    "CAD",
-    "Team leadership & management",
-    "Prototyping",
-    "Product refinement",
-  ],
-  note: "Put to work on robots, RC aircraft, digital electronics and Arduino builds, and on running a makerspace of hardware, software and design teams.",
+  "Hardware",
+  "CAD",
+  "Prototyping",
+  "Leadership",
+  "R&D",
+  "Testing",
+],
+  note: "Put to work on robots, RC aircraft, electronics builds, and on running a makerspace of hardware, software, and design teams.",
 };
 
 /* ------------------------------------------------------------------ */
@@ -461,13 +422,13 @@ export const contact = {
   number: "05",
   label: "Contact",
   title: "Get in touch.",
-  lede: "Email or call about robotics, design, or something you want built.",
+  lede: "Email or call about robotics, design, something you want to build, or maybe just for fun!.",
   labels: {
     email: "Email",
     phone: "Phone",
     based: "Based at",
   },
-  basedValue: "IIT Gandhinagar, India",
+  basedValue: "Mangaluru, India",
 } as const;
 
 export const footer = {
