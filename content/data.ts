@@ -167,8 +167,8 @@ export const indexNav = {
 export const openingBanner = {
   hiddenTitle: "Sharaj Shreyas",
   word: "Sharaj",
-  left: "Maker by ❤️",
-  right: "Robotics, weightlifting, design and building things",
+  right: "Maker by ❤️",
+  left: "Robotics, weightlifting, design and building things",
 } as const;
 
 export const closingBanner = {
