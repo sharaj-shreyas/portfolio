@@ -109,7 +109,7 @@ export const site = {
   name: "Sharaj Shreyas",
   title: "Sharaj Shreyas Portfolio",
   description:
-    "Sharaj Shreyas, Civil Engineering student at IIT Gandhinagar. Robotics, hardware, CAD and prototyping: soccer bots, RC planes, an 8-bit computer, an LED cube and more.",
+    "Sharaj Shreyas, Civil Engineering student at IIT Gandhinagar. Robotics, hardware, CAD and prototyping: soccer bots, RC planes and more.",
   email: "sharajshreyas@iitgn.ac.in",
   phoneDisplay: "+91 94803 47138",
   phoneHref: "tel:+919480347138",
@@ -167,8 +167,8 @@ export const indexNav = {
 export const openingBanner = {
   hiddenTitle: "Sharaj Shreyas",
   word: "Sharaj",
-  left: "Civil Engineering student, IIT Gandhinagar",
-  right: "Robotics, technology, design and building things",
+  left: "Maker by ❤️",
+  right: "Robotics, weightlifting, design and building things",
 } as const;
 
 export const closingBanner = {
